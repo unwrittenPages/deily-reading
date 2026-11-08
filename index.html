@@ -1206,14 +1206,18 @@
 
           {currentTab === 'today' && (
             <>
-              <HeroSection onOpenToday={() => {
+             <HeroSection onOpenToday={() => {
                 setSelectedDayNum(todayDayNum);
                 setTimeout(() => {
-                  document.getElementById('today-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  const el = document.getElementById('today-card');
+                  if (el) {
+                    const topPos = el.getBoundingClientRect().top + window.pageYOffset - 90; // 90px отступ под шапку
+                    window.scrollTo({ top: topPos, behavior: 'smooth' });
+                  }
                 }, 50);
               }} />
               
-              <main id="today-card" className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8 sm:pt-14 flex-1">
+              <main id="today-card" className="mx-auto w-full max-w-6xl px-5 pb-24 pt-8 sm:px-8 sm:pt-12 flex-1">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <p className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">
                     День {currentDayObj.d} из {TOTAL_DAYS} · неделя {Math.ceil(currentDayObj.d / 7)}
