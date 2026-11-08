@@ -1211,7 +1211,7 @@
                 setTimeout(() => {
                   const el = document.getElementById('today-card');
                   if (el) {
-                    const topPos = el.getBoundingClientRect().top + window.pageYOffset - 90; // 90px отступ под шапку
+                    const topPos = el.getBoundingClientRect().top + window.pageYOffset - 64; // 90px отступ под шапку
                     window.scrollTo({ top: topPos, behavior: 'smooth' });
                   }
                 }, 50);
