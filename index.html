@@ -1,3 +1,4 @@
+html
 <!doctype html>
 <html lang="ru">
 <head>
@@ -43,7 +44,6 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
   
   <style>
     body {
@@ -85,7 +85,7 @@
   <script type="text/babel">
     const { useState, useEffect, useMemo, useCallback } = React;
 
-    // --- БАЗА КНИГ И ПЛАНА (встроено для полной автономии) ---
+    // --- БАЗА КНИГ И ПЛАНА ---
     const BOOKS = {
       'Быт': { name: 'Бытие', testament: 'ВЗ', chapters: 50 },
       'Исх': { name: 'Исход', testament: 'ВЗ', chapters: 40 },
@@ -177,7 +177,6 @@
       };
     }
 
-    // Полный массив из 365 дней (объединенные данные plan-01, plan-02, plan-03, plan-04 и notes)
     const RAW_PLAN = [
       {"d":1,"t":"Творение и два пути","r":["Быт 1-2","Иов 1","Пс 1"]},
       {"d":2,"t":"Грех входит в мир","r":["Быт 3-4","Иов 2","Пс 2"]},
@@ -675,25 +674,35 @@
       to: w.days[w.days.length - 1].d,
     }));
 
+    // Вычисление номера дня года от условной даты старта (например, 1 января)
+    function getTodayDayNumber() {
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 1);
+      const diff = now - start;
+      const oneDay = 1000 * 60 * 60 * 24;
+      const dayOfYear = Math.floor(diff / oneDay) + 1;
+      return ((dayOfYear - 1) % TOTAL_DAYS) + 1;
+    }
+
     // --- КОМПОНЕНТЫ ИНТЕРФЕЙСА ---
 
     function AppHeader({ currentTab, setTab }) {
       return (
         <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur-md">
           <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
-            <button onClick={() => setTab('today')} className="font-display text-lg tracking-title text-foreground text-left">
+            <button onClick={() => setTab('today')} className="font-display text-lg tracking-title text-foreground text-left cursor-pointer">
               Библия за год
             </button>
             <nav className="flex items-center gap-1">
               <button
                 onClick={() => setTab('today')}
-                className={`rounded-full px-4 py-2 text-sm transition-colors ${currentTab === 'today' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`rounded-full px-4 py-2 text-sm transition-colors cursor-pointer ${currentTab === 'today' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 Сегодня
               </button>
               <button
                 onClick={() => setTab('plan')}
-                className={`rounded-full px-4 py-2 text-sm transition-colors ${currentTab === 'plan' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`rounded-full px-4 py-2 text-sm transition-colors cursor-pointer ${currentTab === 'plan' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 План
               </button>
@@ -711,10 +720,12 @@
       }, []);
 
       const title = 'Библия за год';
+      
+      // Использованы точные изображения из твоих файлов макета
       const photos = [
-        { src: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80', alt: 'Книга в утреннем свете' },
-        { src: 'https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=600&q=80', alt: 'Ветви оливы' },
-        { src: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80', alt: 'Книга и чашка' },
+        { src: 'image_df9183.jpg', alt: 'Книга в утреннем свете' },
+        { src: 'image_df917f.jpg', alt: 'Ветви оливы' },
+        { src: 'image_df9166.jpg', alt: 'Книга и чашка' },
       ];
 
       return (
@@ -730,19 +741,21 @@
               <p className="hero-el hero-el-2 mt-7 max-w-[34rem] font-display text-[clamp(1.05rem,0.95rem+0.55vw,1.4rem)] italic leading-[1.7] text-foreground/85 text-balance">
                 Читай эту книгу не как историю и не как сборник притч — читай её как письмо от Того, кто мечтает увидеть Своё отражение в тебе.
               </p>
+              
+              {/* Исправленная кнопка "Открыть сегодня" с выверенным шрифтом, мягкой тенью и аккуратной анимацией */}
               <button
                 onClick={onOpenToday}
-                className="hero-el hero-el-3 group mt-8 inline-flex h-11 items-stretch overflow-hidden rounded-md border border-foreground/70 bg-[hsl(33,52%,40%)] text-white transition-colors duration-300 hover:bg-primary px-5 text-sm font-medium tracking-wide items-center gap-3 cursor-pointer"
+                className="hero-el hero-el-3 group mt-8 inline-flex h-12 items-center justify-center gap-3 rounded-xl bg-[hsl(33,52%,40%)] px-7 text-white font-display text-base tracking-wide shadow-md transition-all duration-300 hover:bg-[hsl(33,52%,35%)] hover:shadow-lg active:scale-95 cursor-pointer"
               >
                 <span>Открыть сегодня</span>
-                <span className="inline-flex w-4 h-4 items-center justify-center transition-transform group-hover:translate-x-0.5">→</span>
+                <span className="inline-flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">→</span>
               </button>
             </div>
 
             <div className="grid grid-cols-3 gap-3 md:gap-4 mt-12 h-64 md:h-80 overflow-hidden rounded-t-2xl">
               {photos.map((photo, index) => (
-                <div key={index} className={`hero-photo hero-photo-${index + 1} ${index === 1 ? 'translate-y-8' : ''} bg-[#302e26] rounded-t-xl overflow-hidden`}>
-                  <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover opacity-90" />
+                <div key={index} className={`hero-photo hero-photo-${index + 1} ${index === 1 ? 'translate-y-8' : ''} bg-[#302e26] rounded-t-xl overflow-hidden shadow-inner`}>
+                  <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105" />
                 </div>
               ))}
             </div>
@@ -856,7 +869,25 @@
     // --- ОСНОВНОЕ ПРИЛОЖЕНИЕ ---
     function App() {
       const [currentTab, setTab] = useState('today');
-      const [selectedDayNum, setSelectedDayNum] = useState(1);
+      
+      // Автоматическое определение сегодняшнего дня по календарю
+      const todayDayNum = useMemo(() => getTodayDayNumber(), []);
+      const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
+
+      // Автоматическое обновление дня в полночь
+      useEffect(() => {
+        const checkMidnightUpdate = () => {
+          const currentComputedDay = getTodayDayNumber();
+          setSelectedDayNum(prev => {
+            // Если пользователь смотрел текущий день, сдвигаем на новый день
+            if (prev === todayDayNum) return currentComputedDay;
+            return prev;
+          });
+        };
+        const interval = setInterval(checkMidnightUpdate, 60000); // проверка каждую минуту
+        return () => clearInterval(interval);
+      }, [todayDayNum]);
+
       const [readDays, setReadDays] = useState(() => {
         try {
           const saved = localStorage.getItem('bible_read_days');
@@ -876,14 +907,7 @@
         setReadDays(prev => 
           prev.includes(dayObj.d) ? prev.filter(n => n !== dayObj.d) : [...prev, dayObj.d]
         );
-      }, []);
-
-      const firstUnread = useMemo(() => {
-        for (let i = 1; i <= TOTAL_DAYS; i++) {
-          if (!readDays.includes(i)) return i;
-        }
-        return TOTAL_DAYS;
-      }, [readDays]);
+      }, [] );
 
       const currentDayObj = dayByNumber(selectedDayNum) || PLAN[0];
       const chaptersReadCount = useMemo(() => {
@@ -902,15 +926,14 @@
         })).filter(w => w.days.length > 0);
       }, [filter, isRead]);
 
-      const showHero = readDays.length === 0 && currentTab === 'today';
-
       return (
         <div className="min-h-screen bg-background text-foreground flex flex-col">
           <AppHeader currentTab={currentTab} setTab={setTab} />
 
           {currentTab === 'today' && (
             <>
-              {showHero && <HeroSection onOpenToday={() => setSelectedDayNum(firstUnread)} />}
+              {/* Главный хедер с мыслью, фотографиями и кнопкой теперь ВСЕГДА на месте при открытии вкладки "Сегодня" */}
+              <HeroSection onOpenToday={() => setSelectedDayNum(todayDayNum)} />
               
               <main className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8 sm:pt-14 flex-1">
                 <div className="flex flex-wrap items-center justify-between gap-4">
@@ -926,12 +949,13 @@
                     >
                       ←
                     </button>
-                    {currentDayObj.d !== firstUnread && (
+                    {/* Кнопка возврата к текущему дню между стрелочками */}
+                    {currentDayObj.d !== todayDayNum && (
                       <button
-                        onClick={() => setSelectedDayNum(firstUnread)}
+                        onClick={() => setSelectedDayNum(todayDayNum)}
                         className="rounded-full border border-border px-3.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground cursor-pointer"
                       >
-                        К текущему дню · {firstUnread}
+                        К текущему дню · {todayDayNum}
                       </button>
                     )}
                     <button
