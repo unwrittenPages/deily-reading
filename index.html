@@ -1140,7 +1140,14 @@
                 <div className="flex items-center gap-3 min-w-0">
                   <span className="w-5 shrink-0 text-right text-xs tabular-nums text-muted-foreground/70">{index + 1}</span>
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="book-icon shrink-0"></span>
+                    {/* Встроенная иконка книги SVG */}
+                    <svg className="w-4 h-4 shrink-0 text-[hsl(33,40%,48%)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                      <path d="M8 6h9" />
+                      <path d="M8 10h9" />
+                      <path d="M8 14h9" />
+                    </svg>
                     <span className="font-display text-lg text-foreground truncate">{reading.name}</span>
                   </div>
                 </div>
