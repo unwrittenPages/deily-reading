@@ -45,6 +45,9 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       background-color: hsl(38, 37%, 96%);
       color: hsl(28, 15%, 13%);
@@ -985,7 +988,7 @@
       );
     }
 
-    function HeroSection({ onOpenToday }) {
+   function HeroSection({ onOpenToday }) {
       const [mounted, setMounted] = useState(false);
       useEffect(() => {
         const id = requestAnimationFrame(() => setMounted(true));
@@ -994,7 +997,7 @@
 
       const title = 'Библия за год';
       
-    const photos = [
+      const photos = [
         { src: 'image1.avif', alt: 'Книга в утреннем свете' },
         { src: 'image2.avif', alt: 'Ветви оливы' },
         { src: 'image3.avif', alt: 'Книга и чашка' },
@@ -1014,7 +1017,6 @@
                 Читай эту книгу не как историю и не как сборник притч — читай её как письмо от Того, кто мечтает увидеть Своё отражение в тебе.
               </p>
               
-              {/* Исправленная кнопка "Открыть сегодня" с выверенным шрифтом, мягкой тенью и аккуратной анимацией */}
               <button
                 onClick={onOpenToday}
                 className="hero-el hero-el-3 group mt-8 inline-flex h-12 items-center justify-center gap-3 rounded-xl bg-[hsl(33,52%,40%)] px-7 text-white font-display text-base tracking-wide shadow-md transition-all duration-300 hover:bg-[hsl(33,52%,35%)] hover:shadow-lg active:scale-95 cursor-pointer"
@@ -1204,10 +1206,14 @@
 
           {currentTab === 'today' && (
             <>
-              {/* Главный хедер с мыслью, фотографиями и кнопкой теперь ВСЕГДА на месте при открытии вкладки "Сегодня" */}
-              <HeroSection onOpenToday={() => setSelectedDayNum(todayDayNum)} />
+              <HeroSection onOpenToday={() => {
+                setSelectedDayNum(todayDayNum);
+                setTimeout(() => {
+                  document.getElementById('today-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+              }} />
               
-              <main className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8 sm:pt-14 flex-1">
+              <main id="today-card" className="mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8 sm:pt-14 flex-1">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <p className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">
                     День {currentDayObj.d} из {TOTAL_DAYS} · неделя {Math.ceil(currentDayObj.d / 7)}
