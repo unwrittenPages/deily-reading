@@ -79,6 +79,29 @@
       animation: hero-letter 5.6s linear infinite;
       animation-delay: calc(var(--i, 0) * 0.1s);
     }
+
+    /* Иконка книги для списка чтения */
+    .book-icon {
+      display: inline-block;
+      width: 1.15em;
+      height: 1.15em;
+      margin-right: 0.65em;
+      vertical-align: text-bottom;
+      background-color: hsl(33, 30%, 55%); /* Мягкий цвет иконки (ближе к золотому/бежевому) */
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3Cpath d='M8 6h9'/%3E%3Cpath d='M8 10h9'/%3E%3Cpath d='M8 14h9'/%3E%3C/svg%3E");
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3Cpath d='M8 6h9'/%3E%3Cpath d='M8 10h9'/%3E%3Cpath d='M8 14h9'/%3E%3C/svg%3E");
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      transition: background-color 0.2s ease;
+    }
+    /* Изменение цвета иконки при наведении на строку (опционально) */
+    li:hover .book-icon {
+      background-color: hsl(33, 52%, 40%); /* Цвет gold при наведении */
+    }
   </style>
 </head>
 <body>
@@ -1111,10 +1134,14 @@
 
           <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
             {readings.map((reading, index) => (
-              <li key={reading.label} className="flex items-baseline justify-between gap-4 py-3.5">
+              <li key={reading.label} className="flex items-baseline justify-between gap-4 py-3.5 transition-colors hover:bg-secondary/20 rounded-lg px-2 -mx-2">
                 <span className="flex min-w-0 items-baseline gap-3">
                   <span className="w-4 shrink-0 text-[11px] tabular-nums text-muted-foreground/70">{index + 1}</span>
-                  <span className="truncate font-display text-lg text-foreground">{reading.name}</span>
+                  {/* Вставляем иконку книги перед названием */}
+                  <span className="font-display text-lg text-foreground flex items-center min-w-0">
+                    <span className="book-icon shrink-0"></span>
+                    <span className="truncate">{reading.name}</span>
+                  </span>
                 </span>
                 <span className="shrink-0 text-sm tabular-nums text-muted-foreground">{reading.chapters}</span>
               </li>
