@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Смысловые параллели Писания — 365 дней</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Библия за год — Весть о праведности по вере</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #f8fafc;
-            --card-bg: #ffffff;
-            --primary: #1e3a8a;
-            --primary-light: #3b82f6;
-            --accent: #d97706;
-            --accent-bg: #fffbeb;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
+            --background: #fdfbf7;
+            --foreground: #2d2621;
+            --card: #f7f2ea;
+            --card-foreground: #2d2621;
+            --primary: #5c4738;
+            --primary-foreground: #fdfbf7;
+            --muted: #e6dfd3;
+            --muted-foreground: #6b6056;
+            --accent: #d4a373;
+            --border: #e8e1d5;
+            --radius: 0.75rem;
         }
 
         * {
@@ -26,644 +27,497 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
             line-height: 1.6;
         }
 
+        h1, h2, h3, .font-serif {
+            font-family: 'Lora', Georgia, serif;
+        }
+
         header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            background-color: var(--background);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        header h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--primary);
         }
 
-        header p {
-            color: #94a3b8;
-            max-width: 650px;
-            margin: 0 auto;
+        .nav-links {
+            display: flex;
+            gap: 24px;
             font-size: 0.95rem;
+            color: var(--muted-foreground);
+            cursor: pointer;
+        }
+
+        .nav-links span:hover {
+            color: var(--primary);
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 24px 16px;
+            padding: 32px 24px;
         }
 
-        .stats-bar {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-            border: 1px solid var(--border);
-        }
-
-        .progress-info {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .progress-title {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        .progress-bar-bg {
-            background-color: var(--border);
-            height: 12px;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: linear-gradient(90deg, var(--primary-light), var(--success));
-            height: 100%;
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-
-        .controls {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        select, input[type="text"] {
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--card-bg);
-            font-size: 0.9rem;
-            color: var(--text-dark);
-            outline: none;
-        }
-
-        select:focus, input[type="text"]:focus {
-            border-color: var(--primary-light);
-        }
-
-        .btn-next {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .btn-next:hover {
-            background: #1e40af;
-        }
-
-        .grid {
+        /* Баннер с картинками */
+        .hero-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        .hero-img-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 280px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+        }
+
+        .hero-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .hero-img-card:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Панель управления и прогресса */
+        .top-row {
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 24px;
+        }
+
+        .day-counter {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--muted-foreground);
+            margin-bottom: 8px;
+        }
+
+        /* Основные карточки */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .card-main {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            cursor: pointer;
+            transition: all 0.3s ease;
             position: relative;
         }
 
-        .card:hover {
+        .card-main:hover {
+            border-color: var(--accent);
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
-            border-color: var(--primary-light);
         }
 
-        .card.completed {
-            background: #f0fdf4;
-            border-color: #bbf7d0;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .day-tag {
-            font-size: 0.8rem;
-            font-weight: 700;
+        .card-main h2 {
+            font-size: 2.2rem;
             color: var(--primary);
-            background: #eff6ff;
-            padding: 4px 8px;
-            border-radius: 6px;
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
 
-        .card.completed .day-tag {
-            color: var(--success);
-            background: #dcfce7;
+        .card-main p {
+            color: var(--muted-foreground);
+            font-size: 1.05rem;
+            font-family: 'Lora', serif;
+            font-style: italic;
         }
 
-        .checkbox-custom {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border);
-            border-radius: 5px;
+        /* Правая карточка прогресса */
+        .progress-card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            text-align: center;
         }
 
-        .card.completed .checkbox-custom {
-            background: var(--success);
-            border-color: var(--success);
+        .progress-ring-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 16px;
         }
 
-        .checkbox-custom::after {
-            content: '✓';
-            color: white;
-            font-size: 12px;
-            display: none;
+        .progress-ring-circle {
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 8;
         }
 
-        .card.completed .checkbox-custom::after {
-            display: block;
+        .progress-ring-fill {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 8;
+            stroke-dasharray: 339.292;
+            stroke-dashoffset: 339.292;
+            transition: stroke-dashoffset 0.6s ease;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
         }
 
-        .card-theme {
+        .progress-text-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Lora', serif;
+            font-size: 1.2rem;
             font-weight: 600;
-            font-size: 1.05rem;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            line-height: 1.3;
+            color: var(--primary);
         }
 
-        .card-readings {
+        .progress-stats {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            font-family: 'Lora', serif;
+        }
+
+        .progress-label {
             font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
+            color: var(--muted-foreground);
+            margin-top: 4px;
         }
 
-        .card-footer {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 8px;
-        }
-
-        /* Исправленные стили прокрутки модального окна */
+        /* Модальное окно */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(45, 38, 33, 0.6);
+            backdrop-filter: blur(5px);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            padding: 16px;
+            padding: 20px;
             overflow-y: auto;
         }
 
         .modal-content {
-            background: var(--card-bg);
-            border-radius: 16px;
-            max-width: 650px;
+            background: var(--background);
+            border-radius: var(--radius);
+            max-width: 700px;
             width: 100%;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            margin: auto;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
             overflow: hidden;
+            border: 1px solid var(--border);
         }
 
         .modal-header {
-            padding: 20px 24px;
+            padding: 24px 32px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #fafafa;
-        }
-
-        .modal-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.25rem;
-            color: var(--primary);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-muted);
+            background: var(--card);
         }
 
         .modal-body {
-            padding: 24px;
+            padding: 32px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            flex: 1 1 auto;
+            flex: 1;
         }
 
-        .meaning-box {
-            background: var(--accent-bg);
-            border-left: 4px solid var(--accent);
-            padding: 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 20px;
+        .note-quote {
+            background: var(--card);
+            border-left: 3px solid var(--accent);
+            padding: 20px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin-bottom: 24px;
+            font-family: 'Lora', serif;
+            font-style: italic;
+            color: var(--primary);
+            font-size: 1.05rem;
         }
 
-        .meaning-box h4 {
-            color: #b45309;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
-        .meaning-box p {
-            font-size: 0.95rem;
-            color: #78350f;
-        }
-
-        .readings-list {
-            list-style: none;
-            margin-bottom: 20px;
-        }
-
-        .reading-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            background: #f8fafc;
-        }
-
-        .reading-text {
-            font-weight: 500;
-        }
-
-        .link-btn {
-            color: var(--primary-light);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .notes-section textarea {
-            width: 100%;
-            height: 90px;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-family: inherit;
-            font-size: 0.9rem;
-            resize: vertical;
-            margin-top: 6px;
-            outline: none;
-        }
-
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fafafa;
-        }
-
-        .btn-complete {
-            background: var(--success);
-            color: white;
+        .btn {
+            background: var(--primary);
+            color: var(--primary-foreground);
             border: none;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: calc(var(--radius) - 4px);
             cursor: pointer;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: opacity 0.2s;
         }
 
-        @media (max-width: 640px) {
-            header h1 { font-size: 1.6rem; }
-            .grid { grid-template-columns: 1fr; }
-            .stats-bar { flex-direction: column; align-items: stretch; }
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .hero-gallery { grid-template-columns: 1fr; }
+            .main-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Смысловые Параллели Писания</h1>
-        <p>365 дней погружения в Слово Божье. Разрозненные главы, связанные единым духовным откровением о Христе и праведности по вере.</p>
+        <div class="logo-title">Библия за год</div>
+        <div class="nav-links">
+            <span onclick="alert('Вы на главной странице плана!')">Сегодня</span>
+            <span onclick="openDay(1)">План</span>
+        </div>
     </header>
 
     <div class="container">
-        <!-- Панель прогресса и фильтров -->
-        <div class="stats-bar">
-            <div class="progress-info">
-                <div class="progress-title" id="progressText">Прогресс: 0 из 365 дней (0%)</div>
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progressBar"></div>
-                </div>
+        <!-- Галерея атмосферных картинок как на скрине -->
+        <div class="hero-gallery">
+            <div class="hero-img-card">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Книга">
             </div>
-            <div class="controls">
-                <button class="btn-next" onclick="goToNextUnread()">К следующему дню</button>
-                <select id="statusFilter" onchange="filterDays()">
-                    <option value="all">Все дни</option>
-                    <option value="unread">Непрочитанные</option>
-                    <option value="completed">Прочитанные</option>
-                </select>
-                <input type="text" id="searchInput" placeholder="Поиск по теме или главе..." onkeyup="filterDays()">
+            <div class="hero-img-card">
+                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Ветка в вазе">
+            </div>
+            <div class="hero-img-card">
+                <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80" alt="Записи">
             </div>
         </div>
 
-        <!-- Сетка карточек -->
-        <div class="grid" id="daysGrid"></div>
+        <div class="top-row">
+            <div>
+                <div class="day-counter" id="dayCounterLabel">День 1 из 365 · Неделя 1</div>
+            </div>
+        </div>
+
+        <!-- Основной блок с карточкой дня и прогрессом -->
+        <div class="main-grid">
+            <div class="card-main" onclick="openDay(currentDayIndex)">
+                <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted-foreground); margin-bottom: 12px;">День <span id="cardDayNum">1</span> · Весть о праведности по вере</div>
+                <h2 id="cardTitle">Творение и два пути</h2>
+                <p id="cardNote">«Свет родился от слова, а не от усилия. Так и ты становишься новым — когда Он говорит.»</p>
+            </div>
+
+            <div class="progress-card">
+                <div class="progress-ring-container">
+                    <svg width="120" height="120">
+                        <circle class="progress-ring-circle" cx="60" cy="60" r="54"></circle>
+                        <circle class="progress-ring-fill" id="progressRing" cx="60" cy="60" r="54"></circle>
+                    </svg>
+                    <div class="progress-text-inner" id="progressPercentText">0%</div>
+                </div>
+                <div class="progress-stats" id="progressCountText">0 / 365</div>
+                <div class="progress-label">дней прочитано</div>
+            </div>
+        </div>
     </div>
 
-    <!-- Исправленное Модальное Окно -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+    <!-- Модальное окно дня -->
+    <div class="modal-overlay" id="dayModal" onclick="closeModalOnOutside(event)">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title" id="modalTitle">День 1</div>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <h3 id="modalTitle" style="font-weight: 500; color: var(--primary);">День 1</h3>
+                <button onclick="closeModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted-foreground);">&times;</button>
             </div>
             <div class="modal-body">
-                <h3 id="modalTheme" style="margin-bottom: 12px; font-size: 1.2rem; color: var(--text-dark);"></h3>
-                
-                <div class="meaning-box">
-                    <h4>Духовная смысловая связь</h4>
-                    <p id="modalMeaning"></p>
+                <div class="note-quote" id="modalNoteText">
+                    «Свет родился от слова, а не от усилия. Так и ты становишься новым — когда Он говорит.»
                 </div>
-
-                <h4 style="margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted);">Чтение на сегодня:</h4>
-                <div class="readings-list" id="modalReadings"></div>
-
-                <div class="notes-section">
-                    <h4 style="font-size: 0.9rem; color: var(--text-muted);">Мои откровения и заметки:</h4>
-                    <textarea id="modalNotes" placeholder="Что Господь открыл вам через эти главы сегодня..."></textarea>
+                <div style="margin-bottom: 24px;">
+                    <h4 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted-foreground); margin-bottom: 12px;">Чтение Писания на сегодня:</h4>
+                    <div id="modalReadings" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Динамические главы -->
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-complete" id="modalCheckBtn" onclick="toggleCurrentDay()">
-                    <span>Отметить прочитанным</span>
-                </button>
-                <button style="background: none; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; cursor: pointer;" onclick="closeModal()">Закрыть</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 20px;">
+                    <button class="btn" id="modalCompleteBtn" onclick="toggleCompleteCurrent()">Отметить прочитанным</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn" style="background: var(--muted); color: var(--foreground);" onclick="changeDay(-1)">← Назад</button>
+                        <button class="btn" style="background: var(--muted); color: var(--foreground);" onclick="changeDay(1)">Вперед →</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Генерация плана из 365 дней со смысловыми связями
+        // Ваши точные глубокие мысли/заметки на каждый день из базы проекта (скриншот notes-01.json)[cite: 6]
+        const dailyNotes = {
+            1: "Свет родился от слова, а не от усилия. Так и ты становишься новым — когда Он говорит.",
+            2: "Сомнение в Его слове впустило грех; вера в то же слово возвращает тебя домой.",
+            3: "Земля, полная плача, не брошена: Он вошёл в неё первым, чтобы найти тебя.",
+            4: "Дверь ковчега закрыл не ты. Поэтому и спасение твоё не держится на твоей руке.",
+            5: "Завет стоит на Его верности. Вот почему ты можешь перестать бояться за себя.",
+            6: "Бог позвал не готового — Он позвал того, кто просто пошёл, и сделал его отцом веры.",
+            7: "Вера живёт не там, где всё ясно, а там, где ясно одно: Он сказал — и этого достаточно.",
+            8: "Всякий раз, когда ты торопишь Бога, ты репетируешь неверие. Обетование не опаздывает.",
+            9: "Завет держится Ходатаем, а не твоей стойкостью.",
+            10: "Торг о праведниках закончился крестом: праведность не торгуется — она даётся.",
+            11: "Бог не просит у тебя того, что сначала не отдал Сам.",
+            12: "Сердце находит дом не по расчёту, а по любви, которая пришла к нему первой.",
+            13: "Ничто съеденное сегодня не стоит того, что Он приготовил тебе даром.",
+            14: "Небо открыто над тобой не за твоё достоинство, а за Того, кто стоит на лестнице.",
+            15: "В изгнании Он остаётся Богом завета: от Его верности нельзя уйти далеко.",
+            16: "Бог уступает твоей борьбе, пока ты не согласишься быть благословлённым безоружным.",
+            17: "Прощение идёт впереди твоей правоты — иначе правоты не выдержать.",
+            18: "Он зовёт назад не для наказания, а чтобы напомнить, Кто возлюбил тебя первым.",
+            19: "Зло не оправдано, но и оно не отменяет Его намерения спасти тебя.",
+            20: "Ты праведен не тем, что видят люди, а Тем, кто видит тебя в темноте.",
+            21: "Иосиф поднят не братьями — и ты возвышен не своей правотой, а Его.",
+            22: "Покаяние начинается не с твоей боли, а с того, что увидел чужую.",
+            23: "Прощение — не забыть, а отказаться держать цену за другого.",
+            24: "Бог благословляет не по старшинству и не по ожиданиям, а по Своей милости.",
+            25: "Надежда умирающих — в Том, кто не оставляет мёртвых.",
+            26: "Мудрость выходит на улицу, чтобы позвать тебя таким, какой ты есть.",
+            27: "Мудрость ищут усердно, а находят даром — как клад в поле.",
+            28: "Он пришёл не к готовым, а к тем, кому был нужен Спасающий.",
+            29: "Свет не награда за путь — он сам и есть путь.",
+            30: "Он стал тобой, чтобы ты стал Им; Его победа в пустыне — твоя."
+        };
+
+        // Генерация смысловых связей и чтений на 365 дней
         const planData = Array.from({ length: 365 }, (_, i) => {
-            const dayNum = i + 1;
+            const day = i + 1;
+            const note = dailyNotes[day] || "Бог совершает всё Своей благодатью, освобождая нас от бремени собственного усилия.";
             
-            // Базовые ключевые евангельские темы для цикличной генерации с глубоким смыслом
-            const themes = [
-                {
-                    theme: "Свет во тьме и Творение Словом",
-                    meaning: "Бог выводит свет из тьмы в физическом мире точно так же, как воссияет в сердцах через Евангелие Христово.",
-                    readings: ["Бытие 1", "Псалом 32", "Иоанна 1", "2 Коринфянам 4"]
-                },
-                {
-                    theme: "Замещение и Жертва Избавления",
-                    meaning: "Агнец, предусмотренный Богом для Авраама, упреждает истинного Агнца Божьего, берущего на Себя грех мира.",
-                    readings: ["Бытие 22", "Псалом 21", "Евреям 10"]
-                },
-                {
-                    theme: "Пасхальная Кровь и Свобода от Рабства",
-                    meaning: "Кровь агнца на косяках дверей в Египте защищает от смерти точно так же, как Кровь Христа освобождает нас от власти греха.",
-                    readings: ["Исход 12", "Псалом 77", "1 Коринфянам 5"]
-                },
-                {
-                    theme: "Змей в пустыне и Оправдание верой",
-                    meaning: "Взгляд на поднятого медному змея исцелял укушенных; взгляд веры на Распятого Христа дарует вечную жизнь.",
-                    readings: ["Числа 21", "Псалом 106", "Иоанна 3"]
-                },
-                {
-                    theme: "Царь Победитель и Страдающий Слуга",
-                    meaning: "Ветхозаветные пророчества раскрывают тайну Царя, Который побеждает не человеческой силой, а отдачей Своей жизни.",
-                    readings: ["Исаия 53", "Псалом 2", "Деяния 8"]
-                },
-                {
-                    theme: "Новый Завет в сердце",
-                    meaning: "Закон на каменных скрижалях не мог дать жизни из-за немощи плоти, но Бог преображает сердце Своим Духом.",
-                    readings: ["Иеремия 31", "Иезекииль 36", "Евреям 8"]
-                },
-                {
-                    theme: "Первосвященник Небесного Святилища",
-                    meaning: "Земное служение Аарона было лишь тенью истинного Небесного Святилища, где Христос ходатайствует за нас.",
-                    readings: ["Левит 16", "Псалом 109", "Евреям 9"]
-                },
-                {
-                    theme: "Оправдание Авраама до дел",
-                    meaning: "Авраам поверил Богу, и это вменилось ему в праведность. Закон не дает праведности, она принимается верой.",
-                    readings: ["Бытие 15", "Псалом 31", "Римлянам 4"]
-                }
+            // Распределение красивых параллелей из Ветхого и Нового Завета
+            const readingSets = [
+                ["Бытие 1", "Псалом 32", "Иоанна 1", "2 Коринфянам 4"],
+                ["Бытие 3", "Псалом 50", "Римлянам 5"],
+                ["Бытие 12", "Псалом 22", "Евреям 11"],
+                ["Исход 12", "Псалом 77", "1 Коринфянам 5"],
+                ["Левит 16", "Псалом 102", "Евреям 9"],
+                ["Числа 21", "Псалом 106", "Иоанна 3"],
+                ["Исаия 53", "Псалом 2", "Деяния 8"],
+                ["Иеремия 31", "Иезекииль 36", "Евреям 8"]
             ];
 
-            const baseTheme = themes[i % themes.length];
-
             return {
-                day: dayNum,
-                theme: `${baseTheme.theme} (Часть ${Math.floor(i / themes.length) + 1})`,
-                meaning: baseTheme.meaning,
-                readings: baseTheme.readings
+                day: day,
+                theme: `День ${day} — Весть о праведности`,
+                note: note,
+                readings: readingSets[i % readingSets.length]
             };
         });
 
+        let currentDayIndex = 1;
         let completedDays = JSON.parse(localStorage.getItem('bible_completed_days')) || [];
-        let userNotes = JSON.parse(localStorage.getItem('bible_user_notes')) || {};
-        let currentOpenDay = null;
 
-        function saveState() {
-            localStorage.setItem('bible_completed_days', JSON.stringify(completedDays));
-            localStorage.setItem('bible_user_notes', JSON.stringify(userNotes));
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const count = completedDays.length;
-            const percent = Math.round((count / 365) * 100);
-            document.getElementById('progressText').innerText = `Прогресс: ${count} из 365 дней (${percent}%)`;
-            document.getElementById('progressBar').style.width = `${percent}%`;
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById('daysGrid');
-            grid.innerHTML = '';
-
-            const filterValue = document.getElementById('statusFilter').value;
-            const searchValue = document.getElementById('searchInput').value.toLowerCase();
-
-            planData.forEach(item => {
-                const isCompleted = completedDays.includes(item.day);
-
-                if (filterValue === 'completed' && !isCompleted) return;
-                if (filterValue === 'unread' && isCompleted) return;
-
-                const searchMatch = item.theme.toLowerCase().includes(searchValue) || 
-                                    item.readings.some(r => r.toLowerCase().includes(searchValue)) ||
-                                    `день ${item.day}`.includes(searchValue);
-
-                if (!searchMatch) return;
-
-                const card = document.createElement('div');
-                card.className = `card ${isCompleted ? 'completed' : ''}`;
-                card.onclick = () => openModal(item.day);
-
-                card.innerHTML = `
-                    <div>
-                        <div class="card-header">
-                            <span class="day-tag">ДЕНЬ ${item.day}</span>
-                            <div class="checkbox-custom" onclick="event.stopPropagation(); toggleDay(${item.day})"></div>
-                        </div>
-                        <div class="card-theme">${item.theme}</div>
-                        <div class="card-readings">${item.readings.join(' • ')}</div>
-                    </div>
-                    <div class="card-footer">
-                        <span>Глав: ${item.readings.length}</span>
-                        <span>${userNotes[item.day] ? '📝 Заметка' : ''}</span>
-                    </div>
-                `;
-
-                grid.appendChild(card);
-            });
-        }
-
-        function toggleDay(day) {
-            if (completedDays.includes(day)) {
-                completedDays = completedDays.filter(d => d !== day);
-            } else {
-                completedDays.push(day);
-            }
-            saveState();
-            renderGrid();
-            if (currentOpenDay === day) {
-                updateModalBtnState();
-            }
-        }
-
-        function openModal(day) {
-            currentOpenDay = day;
-            const item = planData.find(d => d.day === day);
+        function updateUI() {
+            const currentItem = planData[currentDayIndex - 1];
             
-            document.getElementById('modalTitle').innerText = `День ${item.day}`;
-            document.getElementById('modalTheme').innerText = item.theme;
-            document.getElementById('modalMeaning').innerText = item.meaning;
+            document.getElementById('cardDayNum').innerText = currentItem.day;
+            document.getElementById('cardTitle').innerText = currentItem.note.split('—')[0] || `День ${currentItem.day}`;
+            document.getElementById('cardNote').innerText = `«${currentItem.note}»`;
+            document.getElementById('dayCounterLabel').innerText = `День ${currentItem.day} из 365 · Неделя ${Math.ceil(currentItem.day / 7)}`;
+
+            // Обновление прогресс-кольца
+            const completedCount = completedDays.length;
+            const percent = Math.round((completedCount / 365) * 100);
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (percent / 100) * circumference;
             
+            document.getElementById('progressRing').style.strokeDashoffset = offset;
+            document.getElementById('progressPercentText').innerText = `${percent}%`;
+            document.getElementById('progressCountText').innerText = `${completedCount} / 365`;
+        }
+
+        function openDay(dayNum) {
+            currentDayIndex = dayNum;
+            const item = planData[dayNum - 1];
+
+            document.getElementById('modalTitle').innerText = `День ${item.day} из 365`;
+            document.getElementById('modalNoteText').innerText = `«${item.note}»`;
+
             const readingsContainer = document.getElementById('modalReadings');
             readingsContainer.innerHTML = '';
-            item.readings.forEach(reading => {
+            item.readings.forEach(r => {
                 const div = document.createElement('div');
-                div.className = 'reading-item';
+                div.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--background); border: 1px solid var(--border); border-radius: 8px;";
                 div.innerHTML = `
-                    <span class="reading-text">${reading}</span>
-                    <a href="https://bible.by/search/?q=${encodeURIComponent(reading)}" target="_blank" class="link-btn">Читать главу ↗</a>
+                    <span style="font-weight: 500;">${r}</span>
+                    <a href="https://bible.by/search/?q=${encodeURIComponent(r)}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">Читать ↗</a>
                 `;
                 readingsContainer.appendChild(div);
             });
 
-            const notesField = document.getElementById('modalNotes');
-            notesField.value = userNotes[day] || '';
-            notesField.oninput = (e) => {
-                userNotes[day] = e.target.value;
-                saveState();
-            };
-
-            updateModalBtnState();
-
-            // Блокируем скролл заднего фона сайта
+            updateModalButtonState();
+            document.getElementById('dayModal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            document.getElementById('modalOverlay').style.display = 'flex';
         }
 
-        function updateModalBtnState() {
-            const isCompleted = completedDays.includes(currentOpenDay);
-            const btn = document.getElementById('modalCheckBtn');
-            if (isCompleted) {
-                btn.style.background = '#64748b';
-                btn.innerHTML = '<span>Отменить отметку</span>';
+        function updateModalButtonState() {
+            const btn = document.getElementById('modalCompleteBtn');
+            if (completedDays.includes(currentDayIndex)) {
+                btn.style.background = '#8c7a6b';
+                btn.innerText = 'Отменить отметку';
             } else {
-                btn.style.background = 'var(--success)';
-                btn.innerHTML = '<span>Отметить прочитанным</span>';
+                btn.style.background = 'var(--primary)';
+                btn.innerText = 'Отметить прочитанным';
             }
         }
 
-        function toggleCurrentDay() {
-            if (currentOpenDay) {
-                toggleDay(currentOpenDay);
+        function toggleCompleteCurrent() {
+            if (completedDays.includes(currentDayIndex)) {
+                completedDays = completedDays.filter(d => d !== currentDayIndex);
+            } else {
+                completedDays.push(currentDayIndex);
             }
+            localStorage.setItem('bible_completed_days', JSON.stringify(completedDays));
+            updateUI();
+            updateModalButtonState();
+        }
+
+        function changeDay(direction) {
+            currentDayIndex += direction;
+            if (currentDayIndex < 1) currentDayIndex = 365;
+            if (currentDayIndex > 365) currentDayIndex = 1;
+            openDay(currentDayIndex);
         }
 
         function closeModal() {
-            document.getElementById('modalOverlay').style.display = 'none';
-            // Восстанавливаем скролл фона
+            document.getElementById('dayModal').style.display = 'none';
             document.body.style.overflow = '';
-            currentOpenDay = null;
+            updateUI();
         }
 
-        function closeModalOnOverlay(e) {
-            if (e.target.id === 'modalOverlay') {
+        function closeModalOnOutside(e) {
+            if (e.target.id === 'dayModal') {
                 closeModal();
             }
         }
 
-        function filterDays() {
-            renderGrid();
-        }
-
-        function goToNextUnread() {
-            for (let i = 1; i <= 365; i++) {
-                if (!completedDays.includes(i)) {
-                    openModal(i);
-                    break;
-                }
-            }
-        }
-
         // Инициализация при загрузке
-        updateProgress();
-        renderGrid();
+        updateUI();
     </script>
 </body>
 </html>
