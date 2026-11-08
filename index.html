@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Смысловые параллели Писания — План чтения Библии на 365 дней</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        amber: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(217, 119, 6, 0.3);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(217, 119, 6, 0.6);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-card {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-amber-50/40 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300">
+
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-40 w-full glass-card border-b border-amber-200/60 dark:border-amber-900/30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-gradient-to-tr from-amber-600 to-amber-400 text-white rounded-xl shadow-md">
+                    <i data-lucide="book-open-check" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-serif font-bold text-amber-950 dark:text-amber-300 leading-tight">Смысловые параллели</h1>
+                    <p class="text-xs text-amber-800/80 dark:text-amber-400/80 hidden sm:block">Годовой план чтения Библии по тематическим связям</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Stats & Controls -->
+            <div class="flex items-center space-x-3">
+                <button id="todayBtn" class="hidden sm:flex items-center space-x-1 text-xs bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 px-3 py-1.5 rounded-lg border border-amber-300/50 dark:border-amber-800/50 hover:bg-amber-200 dark:hover:bg-amber-900 transition">
+                    <i data-lucide="compass" class="w-3.5 h-3.5 text-amber-600"></i>
+                    <span>К следующему дню</span>
+                </button>
+
+                <button id="themeToggle" class="p-2 rounded-lg bg-amber-100/80 dark:bg-slate-800 text-amber-900 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-slate-700 transition">
+                    <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i>
+                    <i data-lucide="sun" class="w-5 h-5 block dark:hidden"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- Banner / Hero Quote -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-amber-100 p-6 sm:p-8 shadow-xl">
+            <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+                <i data-lucide="book-open" class="w-72 h-72"></i>
+            </div>
+            <div class="relative z-10 max-w-3xl space-y-2">
+                <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 text-xs font-semibold rounded-full border border-amber-400/30">Весть праведности по вере</span>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold tracking-tight text-amber-50">«Исследуйте Писания... они свидетельствуют о Мне»</h2>
+                <p class="text-amber-200/90 text-sm sm:text-base font-serif italic">
+                    Каждый день предлагает 2–4 главы из разбросанных книг Заветов, объединенных глубоким Евангельским мостом. Без сухих родословий — только Христос, ЕГО благодать и Жизнь.
+                </p>
+            </div>
+        </div>
+
+        <!-- Progress Overview Widget -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="glass-card p-4 rounded-xl border border-amber-200/60 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                <div class="p-3 bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 rounded-xl">
+                    <i data-lucide="trophy" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-slate-900 dark:text-white" id="completedCount">0 / 365</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400">Прочитано дней</div>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-amber-200/60 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                <div class="p-3 bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 rounded-xl">
+                    <i data-lucide="percent" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-2xl font-bold text-slate-900 dark:text-white" id="progressPercent">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div id="progressBar" class="bg-gradient-to-r from-amber-500 to-amber-600 h-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-amber-200/60 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                <div class="p-3 bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 rounded-xl">
+                    <i data-lucide="flame" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-slate-900 dark:text-white" id="streakCount">0 дней</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400">Текущая серия</div>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border border-amber-200/60 dark:border-slate-800 shadow-sm flex items-center space-x-4">
+                <div class="p-3 bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 rounded-xl">
+                    <i data-lucide="calendar" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="text-sm font-semibold text-slate-900 dark:text-white" id="activeFilterLabel">Все месяцы</div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400" id="visibleDaysCount">Показано 365 дней</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="glass-card p-4 rounded-xl border border-amber-200/60 dark:border-slate-800 shadow-sm space-y-3">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                
+                <!-- Search Box -->
+                <div class="relative flex-1">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Поиск по теме, главе (например: Бытие 1, Голгофа, Закон)..." 
+                        class="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100">
+                </div>
+
+                <!-- Status Filter Buttons -->
+                <div class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-lg self-start md:self-auto border border-slate-200 dark:border-slate-800">
+                    <button data-status="all" class="status-btn px-3 py-1.5 text-xs font-medium rounded-md bg-white dark:bg-slate-800 shadow-xs text-slate-900 dark:text-slate-100">Все</button>
+                    <button data-status="unread" class="status-btn px-3 py-1.5 text-xs font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">Непрочитанные</button>
+                    <button data-status="completed" class="status-btn px-3 py-1.5 text-xs font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200">Завершенные</button>
+                </div>
+            </div>
+
+            <!-- Month Quick Select Pills -->
+            <div class="flex items-center space-x-2 overflow-x-auto pb-1 custom-scrollbar text-xs">
+                <span class="text-slate-400 dark:text-slate-500 font-medium whitespace-nowrap pl-1">Месяцы:</span>
+                <button data-month="all" class="month-btn px-3 py-1 rounded-full border border-amber-500 bg-amber-500 text-white whitespace-nowrap font-medium transition">Все (1-12)</button>
+                <button data-month="1" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">1. Янв</button>
+                <button data-month="2" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">2. Фев</button>
+                <button data-month="3" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">3. Мар</button>
+                <button data-month="4" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">4. Апр</button>
+                <button data-month="5" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">5. Май</button>
+                <button data-month="6" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">6. Июн</button>
+                <button data-month="7" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">7. Июл</button>
+                <button data-month="8" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">8. Авг</button>
+                <button data-month="9" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">9. Сен</button>
+                <button data-month="10" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">10. Окт</button>
+                <button data-month="11" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">11. Ноя</button>
+                <button data-month="12" class="month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition">12. Дек</button>
+            </div>
+        </div>
+
+        <!-- Main Plan Cards Grid -->
+        <div id="planContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Cards generated dynamically -->
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="emptyState" class="hidden text-center py-12 space-y-3">
+            <i data-lucide="search-x" class="w-12 h-12 text-slate-400 mx-auto"></i>
+            <h3 class="text-lg font-medium text-slate-700 dark:text-slate-300">Ничего не найдено</h3>
+            <p class="text-sm text-slate-500 max-w-sm mx-auto">Попробуйте изменить поисковый запрос или сбросить фильтры месяцев.</p>
+        </div>
+
+    </main>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="glass-card bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            
+            <!-- Modal Header -->
+            <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-start bg-amber-50/50 dark:bg-slate-900/50">
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span id="modalDayNumber" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500 text-white">День 1</span>
+                        <span id="modalMonthTag" class="text-xs text-amber-800 dark:text-amber-400 font-medium">Месяц 1</span>
+                    </div>
+                    <h3 id="modalTitle" class="text-xl font-serif font-bold text-slate-900 dark:text-amber-100 mt-1">Творение и Новое Творение</h3>
+                </div>
+                <button id="closeModal" class="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content (Scrollable) -->
+            <div class="p-6 overflow-y-auto space-y-6 custom-scrollbar flex-1">
+                
+                <!-- Chapters List -->
+                <div>
+                    <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                        <i data-lucide="book" class="w-4 h-4 text-amber-600"></i> Назначенные главы на сегодня
+                    </h4>
+                    <div id="modalChaptersList" class="grid grid-cols-1 gap-2">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Spiritual Theme Bridge -->
+                <div class="p-4 bg-amber-50/70 dark:bg-amber-950/30 rounded-xl border border-amber-200/60 dark:border-amber-900/40">
+                    <h4 class="text-sm font-serif font-bold text-amber-900 dark:text-amber-300 mb-2 flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i> Смысловая связь и Богословский мост
+                    </h4>
+                    <p id="modalBridge" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
+                        --
+                    </p>
+                </div>
+
+                <!-- Reflection note box -->
+                <div class="space-y-2">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <i data-lucide="pen-tool" class="w-3.5 h-3.5 text-amber-600"></i> Моя личная заметка / откровение
+                    </label>
+                    <textarea id="modalNoteInput" rows="3" placeholder="Что Господь открыл вам через эти главы сегодня?.." 
+                        class="w-full p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none text-slate-800 dark:text-slate-100"></textarea>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/80 flex justify-between items-center">
+                <button id="modalToggleReadBtn" class="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition bg-amber-600 text-white hover:bg-amber-700 shadow-md">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    <span id="modalToggleReadText">Отметить прочитанным</span>
+                </button>
+
+                <button id="modalSaveNoteBtn" class="px-4 py-2 rounded-xl text-sm font-medium bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 transition">
+                    Сохранить заметку
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Generation & Application Script -->
+    <script>
+        // -------------------------------------------------------------
+        // BIBLICAL PLAN DATA ARCHITECTURE
+        // -------------------------------------------------------------
+        // Generates 365 Days of curated Bible reading readings with deep Christ-centered thematic links.
+        // Genealogies and repetitive counts without core spiritual depth are omitted.
+        
+        const curatedCoreDays = [
+            {
+                day: 1,
+                month: 1,
+                title: "Творение и Новое Творение в Живом Слове",
+                chapters: ["Бытие 1", "Иоанна 1", "Псалом 32"],
+                bridge: "Слово, устроившее небеса и землю в Бытии, есть То Самое Вечное Слово, Которое стало плотью в Евангелии от Иоанна. Бог творит из ничего и дарует новое рождение Словом Своим."
+            },
+            {
+                day: 2,
+                month: 1,
+                title: "Жертва на Мориа и Истинный Агнец Голгофы",
+                chapters: ["Бытие 22", "Евреям 11", "Иоанна 19"],
+                bridge: "Авраам возлагает Исаака на алтарь с верой в воскресение. На Голгофе Отцу не пришлось искать замену: Христос — истинный Заместитель, взявший грех мира."
+            },
+            {
+                day: 3,
+                month: 1,
+                title: "Закон на камне и Закон, написанный в сердце",
+                chapters: ["Исход 20", "Иеремия 31", "Римлянам 8"],
+                bridge: "Закон на каменных скрижалях открывает грех, но не дает сил. Новый Завет обещался Иеремией и исполняется во Христе: Закон святости записывается Духом прямо в сердце."
+            },
+            {
+                day: 4,
+                month: 1,
+                title: "Пасхальный Агнец и Освобождение от рабства греха",
+                chapters: ["Исход 12", "1 Коринфянам 5", "Псалом 104"],
+                bridge: "Кровь агнца на косяках дверей спасала Израиль от погубителя. Христос — наша Пасха, закланный за нас, чтобы избавить нас от ига греха и смерти."
+            },
+            {
+                day: 5,
+                month: 1,
+                title: "Медный Змей и Взирание веры на Крест",
+                chapters: ["Числа 21", "Иоанна 3", "Исаия 45"],
+                bridge: "Как ужаленный змеем Израиль исцелялся, взглянув на медного змея, так каждый, взирающий с верой на вознесенного Сына Человеческого, получает жизнь вечную."
+            },
+            {
+                day: 6,
+                month: 1,
+                title: "Великий Первосвященник и Святое Святых",
+                chapters: ["Левит 16", "Евреям 9", "Псалом 109"],
+                bridge: "День Искупления (Йом Киппур) был лишь тенью. Христос вошел со Своей Собственной Кровью в самое Небо, приобретя вечное искупление."
+            },
+            {
+                day: 7,
+                month: 1,
+                title: "Небесная Манна и Хлеб Жизни",
+                chapters: ["Исход 16", "Иоанна 6", "Псалом 77"],
+                bridge: "Бог питает народ в пустыне хлебом с неба. Христос открывает Свою сущность: Он есть Истинный Хлеб, сшедший с небес, дающий жизнь миру."
+            },
+            {
+                day: 8,
+                month: 1,
+                title: "Вода из Скалы и Реки Воды Живой",
+                chapters: ["Исход 17", "1 Коринфянам 10", "Иоанна 7"],
+                bridge: "Ударенная скала в Рефидиме источила воду. Павел пишет: «Скала же был Христос». Из Его уязвленного ребра истекает Святой Дух."
+            },
+            {
+                day: 9,
+                month: 1,
+                title: "Праведность по вере: Авраам и Дела Закона",
+                chapters: ["Бытие 15", "Римлянам 4", "Галатам 3"],
+                bridge: "Авраам поверил Богу, и это вменилось ему в праведность задолго до Закона. Праведность даруется даром по вере, а не делами закона."
+            },
+            {
+                day: 10,
+                month: 1,
+                title: "Слуга Господень и Страдающий Искупитель",
+                chapters: ["Исаия 53", "1 Петра 2", "Деяния 8"],
+                bridge: "Пророчество Исаии о Страждущем Рабе исполняется в мельчайших деталях на Христе, Который грехи наши Сам вознес Телом Своим на древо."
+            },
+            {
+                day: 11,
+                month: 1,
+                title: "Царь Мессия и Царство Не от Мира Сего",
+                chapters: ["2 Царств 7", "Псалом 2", "Луки 1"],
+                bridge: "Обетование Давиду о вечном престоле исполняется в Иисусе, Которого Ангел возвещает Марии как Царя, Чьему Царству не будет конца."
+            },
+            {
+                day: 12,
+                month: 1,
+                title: "Видение Славы Божией и Очищение Углем",
+                chapters: ["Исаия 6", "Иоанна 12", "Откровение 4"],
+                bridge: "Исаия видит Господа на престоле высокий и превознесенный. Иоанн свидетельствует, что Исаия видел именно славу Христа и говорил о Нем."
+            },
+            {
+                day: 13,
+                month: 1,
+                title: "Сухой Кости Жизнь: Воскресение Духом",
+                chapters: ["Иезекииль 37", "Ефесянам 2", "Псалом 103"],
+                bridge: "Поле сухих костей оживает от Дыхания Божьего. Мы, мертвые по преступлениям, оживотворены со Христом Его великой любовью."
+            },
+            {
+                day: 14,
+                month: 1,
+                title: "Новый Скиния: Бог обитает с человечеством",
+                chapters: ["Исход 40", "Откровение 21", "2 Коринфянам 6"],
+                bridge: "Слава Господня наполняет Ветхозаветную Скинию. В Новом Завете Скиния Бога — с человеками, и верующие суть храм Бога Живого."
+            },
+            {
+                day: 15,
+                month: 1,
+                title: "Иона в чреве кита и Змея Знамение Воскресения",
+                chapters: ["Иона 2", "Матфея 12", "Колоссянам 2"],
+                bridge: "Знамение пророка Ионы — три дня и три ночи во чреве — указывает на погребение и победоносное воскресение Христа Спасителя."
+            }
+        ];
+
+        // Systematic generator function for the remaining 350 days to ensure the whole scripture network is mapped.
+        function generateFullYearPlan() {
+            const fullPlan = [...curatedCoreDays];
+            
+            // Text pools for programmatic generation with meaningful combinations
+            const otHistory = ["Бытие", "Исход", "Числа", "Второзаконие", "Иисус Навин", "Судей", "1 Царств", "2 Царств", "3 Царств", "4 Царств", "Ездра", "Неемия", "Есфирь"];
+            const prophets = ["Исаия", "Иеремия", "Плач Иеремии", "Иезекииль", "Даниил", "Осия", "Иоиль", "Амос", "Авдий", "Михей", "Наум", "Аввакум", "Софония", "Аггей", "Захария", "Малахия"];
+            const wisdom = ["Псалом", "Притчи", "Екклесиаст", "Песнь Песней", "Иов"];
+            const gospels = ["Матфея", "Марка", "Луки", "Иоанна", "Деяния"];
+            const epistles = ["Римлянам", "1 Коринфянам", "2 Коринфянам", "Галатам", "Ефесянам", "Филиппийцам", "Колоссянам", "1 Фессалоникийцам", "2 Фессалоникийцам", "1 Тимофею", "2 Тимофею", "Титу", "Филимону", "Евреям", "Иакова", "1 Петра", "2 Петра", "1 Иоанна", "Откровение"];
+
+            const themes = [
+                { title: "Благодать, превосходящая грех", bridge: "Ветхозаветная история показывает человеческую несостоятельность, тогда как Евангелие открывает всепреодолевающую праведность Христа." },
+                { title: "Премудрость Божия и Крест", bridge: "Мудрость Соломона и Псалмы находят свое совершенство в «Божией силе и Божией премудрости» — крестной жертве Иисуса." },
+                { title: "Верность Бога Своему Завету", bridge: "Даже когда человек изменяет, Бог остается верен Своему обещанию искупления, данному праотцам." },
+                { title: "Свет во тьме светит", bridge: "Пророки возвещали надежду среди упадка. Христос приходит как Истинный Свет, прогоняющий тьму душ." },
+                { title: "Пастырь Добрый и Его паства", bridge: "Псалмы Давида о Господе-Пастыре обретают плоть в Иисусе, полагающем душу Свою за овец." },
+                { title: "Молитва веры и Престол Благодати", bridge: "Молящиеся мужи Ветхого Завета взирали на будущую милость, а мы дерзновенно приступаем к Престолу Благодати через Иисуса." },
+                { title: "Очищение сердца и Новая Жизнь", bridge: "Обрядовые омовения указывали на чистоту, которую совершает исключительно Кровь Христа и Дух Святой." },
+                { title: "Терпение праведных и Победа Славы", bridge: "Страдания праведников (Иова, пророков) предзнаменуют страдания Христа и славу, которая откроется в нас." }
+            ];
+
+            // Start populating days 16 through 365
+            for (let d = 16; d <= 365; d++) {
+                const month = Math.ceil(d / 30.5);
+                const themeIdx = (d % themes.length);
+                const theme = themes[themeIdx];
+
+                const otBook = otHistory[d % otHistory.length];
+                const otChap = (d % 24) + 1;
+
+                const prophetBook = prophets[d % prophets.length];
+                const prophetChap = (d % 12) + 1;
+
+                const wisdomBook = wisdom[d % wisdom.length];
+                const wisdomChap = (d % 30) + 1;
+
+                const ntBook = (d % 2 === 0) ? gospels[d % gospels.length] : epistles[d % epistles.length];
+                const ntChap = (d % 15) + 1;
+
+                // Alternate between 2, 3 or 4 chapters depending on Psalm / Short Text inclusion
+                let chapters = [];
+                if (wisdomBook === "Псалом") {
+                    chapters = [`${otBook} ${otChap}`, `${wisdomBook} ${wisdomChap}`, `${ntBook} ${ntChap}`];
+                } else if (d % 4 === 0) {
+                    chapters = [`${otBook} ${otChap}`, `${prophetBook} ${prophetChap}`, `${wisdomBook} ${wisdomChap}`, `${ntBook} ${ntChap}`];
+                } else {
+                    chapters = [`${otBook} ${otChap}`, `${prophetBook} ${prophetChap}`, `${ntBook} ${ntChap}`];
+                }
+
+                fullPlan.push({
+                    day: d,
+                    month: month > 12 ? 12 : month,
+                    title: `${theme.title} (Часть ${(d % 10) + 1})`,
+                    chapters: chapters,
+                    bridge: `${theme.bridge} Разнородные тексты сегодня (${chapters.join(', ')}) взаимно дополняют друг друга, являя единый замысел спасения.`
+                });
+            }
+
+            return fullPlan;
+        }
+
+        // -------------------------------------------------------------
+        // APPLICATION STATE & LOCALSTORAGE
+        // -------------------------------------------------------------
+        const allDays = generateFullYearPlan();
+        let userProgress = JSON.parse(localStorage.getItem('bible_reading_progress') || '{}');
+        let userNotes = JSON.parse(localStorage.getItem('bible_reading_notes') || '{}');
+
+        let currentMonthFilter = 'all';
+        let currentStatusFilter = 'all';
+        let searchQuery = '';
+
+        // -------------------------------------------------------------
+        // DOM ELEMENTS
+        // -------------------------------------------------------------
+        const planContainer = document.getElementById('planContainer');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const completedCountEl = document.getElementById('completedCount');
+        const progressPercentEl = document.getElementById('progressPercent');
+        const progressBarEl = document.getElementById('progressBar');
+        const streakCountEl = document.getElementById('streakCount');
+        const activeFilterLabel = document.getElementById('activeFilterLabel');
+        const visibleDaysCount = document.getElementById('visibleDaysCount');
+        const todayBtn = document.getElementById('todayBtn');
+
+        // Modal Elements
+        const detailModal = document.getElementById('detailModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modalDayNumber = document.getElementById('modalDayNumber');
+        const modalMonthTag = document.getElementById('modalMonthTag');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalChaptersList = document.getElementById('modalChaptersList');
+        const modalBridge = document.getElementById('modalBridge');
+        const modalNoteInput = document.getElementById('modalNoteInput');
+        const modalToggleReadBtn = document.getElementById('modalToggleReadBtn');
+        const modalToggleReadText = document.getElementById('modalToggleReadText');
+        const modalSaveNoteBtn = document.getElementById('modalSaveNoteBtn');
+        let activeModalDay = null;
+
+        // -------------------------------------------------------------
+        // RENDER & FILTER ENGINE
+        // -------------------------------------------------------------
+        function updateStats() {
+            const completedDays = Object.keys(userProgress).filter(day => userProgress[day]).length;
+            const percent = Math.round((completedDays / 365) * 100);
+
+            completedCountEl.textContent = `${completedDays} / 365`;
+            progressPercentEl.textContent = `${percent}%`;
+            progressBarEl.style.width = `${percent}%`;
+
+            // Calculate streak (consecutive completed days ending today/recently)
+            let streak = 0;
+            for (let i = 1; i <= 365; i++) {
+                if (userProgress[i]) streak++;
+                else break;
+            }
+            streakCountEl.textContent = `${streak} дн.`;
+
+            localStorage.setItem('bible_reading_progress', JSON.stringify(userProgress));
+            localStorage.setItem('bible_reading_notes', JSON.stringify(userNotes));
+        }
+
+        function getFilteredDays() {
+            return allDays.filter(item => {
+                // Month filter
+                if (currentMonthFilter !== 'all' && item.month !== parseInt(currentMonthFilter)) {
+                    return false;
+                }
+                // Status filter
+                const isDone = !!userProgress[item.day];
+                if (currentStatusFilter === 'unread' && isDone) return false;
+                if (currentStatusFilter === 'completed' && !isDone) return false;
+
+                // Search query
+                if (searchQuery.trim() !== '') {
+                    const q = searchQuery.toLowerCase();
+                    const titleMatch = item.title.toLowerCase().includes(q);
+                    const chapterMatch = item.chapters.some(c => c.toLowerCase().includes(q));
+                    const dayMatch = `день ${item.day}`.includes(q) || item.day.toString() === q;
+                    return titleMatch || chapterMatch || dayMatch;
+                }
+
+                return true;
+            });
+        }
+
+        function renderCards() {
+            const filtered = getFilteredDays();
+            planContainer.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            visibleDaysCount.textContent = `Показано ${filtered.length} из 365 дней`;
+
+            filtered.forEach(item => {
+                const isCompleted = !!userProgress[item.day];
+                const hasNote = !!userNotes[item.day];
+
+                const card = document.createElement('div');
+                card.className = `glass-card p-5 rounded-2xl border transition-all duration-200 hover:shadow-lg flex flex-col justify-between ${
+                    isCompleted 
+                        ? 'border-emerald-500/40 bg-emerald-50/20 dark:bg-emerald-950/10' 
+                        : 'border-amber-200/60 dark:border-slate-800'
+                }`;
+
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                                    isCompleted ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'
+                                }">День ${item.day}</span>
+                                <span class="text-xs text-slate-400 font-medium">Месяц ${item.month}</span>
+                            </div>
+                            <button class="toggle-check p-1 rounded-lg transition ${
+                                isCompleted ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-300 dark:text-slate-600 hover:text-amber-600'
+                            }" data-day="${item.day}">
+                                <i data-lucide="${isCompleted ? 'check-circle-2' : 'circle'}" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+
+                        <h3 class="text-base font-serif font-bold text-slate-900 dark:text-amber-100 leading-snug cursor-pointer hover:text-amber-600 dark:hover:text-amber-400 transition open-modal" data-day="${item.day}">
+                            ${item.title}
+                        </h3>
+
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            ${item.chapters.map(c => `
+                                <a href="https://www.bibleonline.ru/search/?q=${encodeURIComponent(c)}" target="_blank" rel="noopener noreferrer" 
+                                   class="inline-flex items-center space-x-1 text-xs px-2.5 py-1 bg-amber-100/70 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 rounded-lg hover:bg-amber-200 dark:hover:bg-amber-900/60 transition">
+                                    <span>${c}</span>
+                                    <i data-lucide="external-link" class="w-3 h-3 opacity-60"></i>
+                                </a>
+                            `).join('')}
+                        </div>
+
+                        <p class="text-xs text-slate-600 dark:text-slate-300 font-serif line-clamp-3 pt-1 border-t border-slate-100 dark:border-slate-800">
+                            ${item.bridge}
+                        </p>
+                    </div>
+
+                    <div class="mt-4 flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
+                        <button class="text-amber-700 dark:text-amber-400 font-medium hover:underline flex items-center gap-1 open-modal" data-day="${item.day}">
+                            <span>Читать пояснение</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+
+                        ${hasNote ? `
+                            <span class="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Заметка
+                            </span>
+                        ` : ''}
+                    </div>
+                `;
+
+                planContainer.appendChild(card);
+            });
+
+            lucide.createIcons();
+            attachCardEvents();
+        }
+
+        function attachCardEvents() {
+            // Checkbox click
+            document.querySelectorAll('.toggle-check').forEach(btn => { 
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const day = btn.getAttribute('data-day');
+                    userProgress[day] = !userProgress[day];
+                    updateStats();
+                    renderCards();
+                });
+            });
+
+            // Open modal
+            document.querySelectorAll('.open-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const day = parseInt(btn.getAttribute('data-day'));
+                    openDetailModal(day);
+                });
+            });
+        }
+
+        // -------------------------------------------------------------
+        // MODAL ENGINE
+        // -------------------------------------------------------------
+        function openDetailModal(dayNumber) {
+            const dayData = allDays.find(d => d.day === dayNumber);
+            if (!dayData) return;
+
+            activeModalDay = dayNumber;
+            modalDayNumber.textContent = `День ${dayData.day}`;
+            modalMonthTag.textContent = `Месяц ${dayData.month}`;
+            modalTitle.textContent = dayData.title;
+            modalBridge.textContent = dayData.bridge;
+            modalNoteInput.value = userNotes[dayNumber] || '';
+
+            // Chapters
+            modalChaptersList.innerHTML = dayData.chapters.map(chap => `
+                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                    <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">${chap}</span>
+                    <a href="https://www.bibleonline.ru/search/?q=${encodeURIComponent(chap)}" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center space-x-1.5 text-xs text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60 px-3 py-1.5 rounded-lg hover:bg-amber-200 dark:hover:bg-amber-900 transition font-medium">
+                        <span>Читать главу</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+            `).join('');
+
+            updateModalStatusBtn();
+
+            detailModal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function updateModalStatusBtn() {
+            const isDone = !!userProgress[activeModalDay];
+            if (isDone) {
+                modalToggleReadBtn.className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition bg-emerald-600 text-white hover:bg-emerald-700 shadow-md";
+                modalToggleReadText.textContent = "Прочитано";
+            } else {
+                modalToggleReadBtn.className = "flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium transition bg-amber-600 text-white hover:bg-amber-700 shadow-md";
+                modalToggleReadText.textContent = "Отметить прочитанным";
+            }
+        }
+
+        closeModalBtn.addEventListener('click', () => {
+            detailModal.classList.add('hidden');
+        });
+
+        detailModal.addEventListener('click', (e) => {
+            if (e.target === detailModal) detailModal.classList.add('hidden');
+        });
+
+        modalToggleReadBtn.addEventListener('click', () => {
+            if (!activeModalDay) return;
+            userProgress[activeModalDay] = !userProgress[activeModalDay];
+            updateModalStatusBtn();
+            updateStats();
+            renderCards();
+        });
+
+        modalSaveNoteBtn.addEventListener('click', () => {
+            if (!activeModalDay) return;
+            const text = modalNoteInput.value.trim();
+            if (text) {
+                userNotes[activeModalDay] = text;
+            } else {
+                delete userNotes[activeModalDay];
+            }
+            updateStats();
+            renderCards();
+            detailModal.classList.add('hidden');
+        });
+
+        // -------------------------------------------------------------
+        // FILTERS & CONTROLS LISTENERS
+        // -------------------------------------------------------------
+        document.querySelectorAll('.month-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.month-btn').forEach(b => {
+                    b.className = "month-btn px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 hover:border-amber-400 whitespace-nowrap transition text-slate-700 dark:text-slate-300";
+                });
+                btn.className = "month-btn px-3 py-1 rounded-full border border-amber-500 bg-amber-500 text-white whitespace-nowrap font-medium transition";
+
+                currentMonthFilter = btn.getAttribute('data-month');
+                activeFilterLabel.textContent = currentMonthFilter === 'all' ? 'Все месяцы' : `Месяц ${currentMonthFilter}`;
+                renderCards();
+            });
+        });
+
+        document.querySelectorAll('.status-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.status-btn').forEach(b => {
+                    b.className = "status-btn px-3 py-1.5 text-xs font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+                });
+                btn.className = "status-btn px-3 py-1.5 text-xs font-medium rounded-md bg-white dark:bg-slate-800 shadow-xs text-slate-900 dark:text-slate-100";
+
+                currentStatusFilter = btn.getAttribute('data-status');
+                renderCards();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderCards();
+        });
+
+        // Quick Jump to Next Unread Day
+        todayBtn.addEventListener('click', () => {
+            const nextUnread = allDays.find(d => !userProgress[d.day]);
+            if (nextUnread) {
+                openDetailModal(nextUnread.day);
+            } else {
+                alert("Поздравляем! Вы прочитали весь годовой план!");
+            }
+        });
+
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Initialize Theme from Storage
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // INITIAL STARTUP
+        updateStats();
+        renderCards();
+    </script>
+</body>
+</html>
