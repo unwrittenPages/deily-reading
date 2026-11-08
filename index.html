@@ -1109,7 +1109,7 @@
       );
     }
 
-    function DayCard({ day, readings, read, onToggle, pending }) {
+   function DayCard({ day, readings, read, onToggle, pending }) {
       return (
         <article className="rounded-[1.4rem] border border-border/80 bg-card p-6 shadow-sm sm:p-9">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -1136,15 +1136,14 @@
 
           <ul className="mt-8 divide-y divide-border/70 border-y border-border/70">
             {readings.map((reading, index) => (
-              <li key={reading.label} className="flex items-baseline justify-between gap-4 py-3.5 transition-colors hover:bg-secondary/20 rounded-lg px-2 -mx-2">
-                <span className="flex min-w-0 items-baseline gap-3">
-                  <span className="w-4 shrink-0 text-[11px] tabular-nums text-muted-foreground/70">{index + 1}</span>
-                  {/* Вставляем иконку книги перед названием */}
-                  <span className="font-display text-lg text-foreground flex items-center min-w-0">
+              <li key={reading.label} className="flex items-center justify-between gap-4 py-3.5 px-2">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="w-5 shrink-0 text-right text-xs tabular-nums text-muted-foreground/70">{index + 1}</span>
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <span className="book-icon shrink-0"></span>
-                    <span className="truncate">{reading.name}</span>
-                  </span>
-                </span>
+                    <span className="font-display text-lg text-foreground truncate">{reading.name}</span>
+                  </div>
+                </div>
                 <span className="shrink-0 text-sm tabular-nums text-muted-foreground">{reading.chapters}</span>
               </li>
             ))}
