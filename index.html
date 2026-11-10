@@ -186,12 +186,26 @@
       const spaceIndex = ref.lastIndexOf(' ');
       const code = ref.slice(0, spaceIndex);
       const spec = ref.slice(spaceIndex + 1);
-      const [fromRaw, toRaw] = spec.split('-');
-      const from = Number(fromRaw);
-      const to = toRaw ? Number(toRaw) : from;
       const book = BOOKS[code];
-      const count = Math.max(0, to - from + 1);
-      const chapters = from === to ? `${from}` : `${from}–${to}`;
+
+      let from = 1, to = 1, count = 1, chapters = spec;
+
+      if (spec.includes(':')) {
+        // Обработка формата с указанием стихов (например, "1:1-13" или "14:7")
+        const [chapPart] = spec.split(':');
+        from = Number(chapPart) || 1;
+        to = from;
+        count = 1;
+        chapters = spec; // Сохраняем исходную строку стихов для отображения
+      } else {
+        // Обработка стандартного диапазона глав (например, "1-14")
+        const [fromRaw, toRaw] = spec.split('-');
+        from = Number(fromRaw) || 1;
+        to = toRaw ? Number(toRaw) : from;
+        count = Math.max(0, to - from + 1);
+        chapters = from === to ? `${from}` : `${from}–${to}`;
+      }
+
       return {
         code,
         name: book ? book.name : code,
