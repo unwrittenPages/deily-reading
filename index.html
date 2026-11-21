@@ -1996,15 +1996,18 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
                     День {currentDayObj.d} из {TOTAL_DAYS} · неделя {Math.ceil(currentDayObj.d / 7)}
                   </p>
 
-                  <div className="flex items-center gap-1.5">
+             <div className="flex items-center gap-1.5">
   <button
     type="button"
     onClick={() => setSelectedDayNum(prev => Math.max(1, prev - 1))}
     disabled={currentDayObj.d === 1}
     aria-label="Предыдущий день"
-    className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
+    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
   >
-    <span className="block text-[15px] leading-none translate-y-[0.5px] select-none">←</span>
+    <svg className="h-4 w-4 block" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 12H5" />
+      <path d="M12 19l-7-7 7-7" />
+    </svg>
   </button>
 
   {currentDayObj.d !== todayDayNum && (
@@ -2022,9 +2025,12 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
     onClick={() => setSelectedDayNum(prev => Math.min(TOTAL_DAYS, prev + 1))}
     disabled={currentDayObj.d === TOTAL_DAYS}
     aria-label="Следующий день"
-    className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
+    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
   >
-    <span className="block text-[15px] leading-none translate-y-[0.5px] select-none">→</span>
+    <svg className="h-4 w-4 block" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 12h14" />
+      <path d="M12 5l7 7-7 7" />
+    </svg>
   </button>
 </div>
                 </div>
