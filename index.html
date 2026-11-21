@@ -111,6 +111,7 @@
       font-weight: 600;
     }
 
+   
     @keyframes greeting-wave {
       0%, 22%, 100% { color: hsl(28, 15%, 13%); }
       11% { color: hsl(33, 52%, 40%); }
@@ -149,6 +150,18 @@
       body {
         min-width: 320px;
       }
+
+      #today-card > div:first-child > div button:first-child,
+#today-card > div:first-child > div button:last-child {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  min-width: 2.35rem;
+  min-height: 2.35rem;
+  padding: 0;
+  line-height: 1;
+}
 
       /* Шапка: одна строка без жёсткой высоты */
       header > div {
