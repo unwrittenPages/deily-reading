@@ -406,44 +406,31 @@
 @keyframes page-turn-sweep {
       0% {
         opacity: 0;
-        transform: translateX(75%) skewX(-4deg);
+        transform: translateX(100%) skewX(-5deg);
+        -webkit-mask-position: 100% 0;
+        mask-position: 100% 0;
       }
-      20% {
-        opacity: 0.9;
-        transform: translateX(22%) skewX(-2.5deg);
+      28% {
+        opacity: 0.72;
+        transform: translateX(12%) skewX(-2.5deg);
+        -webkit-mask-position: 70% 0;
+        mask-position: 70% 0;
       }
-      55% {
-        opacity: 0.55;
-        transform: translateX(-30%) skewX(-1deg);
-      }
-      85% {
-        opacity: 0.12;
-        transform: translateX(-78%) skewX(0deg);
+      65% {
+        opacity: 0.45;
+        transform: translateX(-35%) skewX(-1deg);
+        -webkit-mask-position: 35% 0;
+        mask-position: 35% 0;
       }
       100% {
         opacity: 0;
-        transform: translateX(-105%) skewX(0deg);
+        transform: translateX(-118%) skewX(0deg);
+        -webkit-mask-position: 0% 0;
+        mask-position: 0% 0;
       }
     }
 
-    .page-turn-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      pointer-events: none;
-      opacity: 0;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(42, 31, 19, 0.08) 18%,
-        hsla(38, 52%, 99%, 0.92) 24%,
-        hsla(34, 42%, 88%, 0.85) 58%,
-        hsla(38, 44%, 97%, 0.3) 82%,
-        transparent 100%
-      );
-      will-change: transform, opacity;
-      animation: page-turn-sweep 1.2s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
-    }
+    
    
    @keyframes day-flip-left {
       0% {
