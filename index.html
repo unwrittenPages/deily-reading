@@ -1803,10 +1803,11 @@
       }, [filter, isRead]);
 
       return (
-        <div className="min-h-screen bg-background text-foreground flex flex-col">
+        <div className="min-h-screen text-foreground flex flex-col" style="
+    background-color: hsl(38 34% 93% / var(--tw-bg-opacity, 1));>
           <AppHeader currentTab={currentTab} setTab={setTab} />
 
-          <section className="mx-auto w-full max-w-6xl px-5 pt-3 sm:px-8">
+          <section className="mx-auto w-full max-w-6xl px-5 p-3 sm:px-8">
             <div className="rounded-2xl border border-border/80 bg-card/90 px-4 py-3 sm:px-5">
               {!authReady ? (
                 <p className="text-xs text-muted-foreground">Подключение сохранения...</p>
