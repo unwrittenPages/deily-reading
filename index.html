@@ -402,6 +402,41 @@
         transition-duration: .01ms !important;
       }
     }
+
+   @keyframes page-turn-sweep {
+      0% {
+        opacity: 0;
+        transform: translateX(100%) skewX(-6deg);
+      }
+      35% {
+        opacity: 0.72;
+        transform: translateX(8%) skewX(-3deg);
+      }
+      65% {
+        opacity: 0.55;
+        transform: translateX(-18%) skewX(-2deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-110%) skewX(0deg);
+      }
+    }
+
+    .page-turn-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        hsl(38, 44%, 97%) 28%,
+        hsl(35, 38%, 91%) 72%,
+        transparent 100%
+      );
+      box-shadow: -18px 0 36px -12px rgba(42, 31, 19, 0.14);
+      animation: page-turn-sweep 0.78s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
+    }
   </style>
 </head>
 <body>
@@ -1438,6 +1473,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
     }
 
    function HeroSection({ onOpenToday }) {
+    
       const [mounted, setMounted] = useState(false);
       useEffect(() => {
         const id = requestAnimationFrame(() => setMounted(true));
@@ -1608,7 +1644,24 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
     // --- ОСНОВНОЕ ПРИЛОЖЕНИЕ ---
     function App() {
       const [currentTab, setTab] = useState('today');
-      
+      const [isTurningPage, setIsTurningPage] = useState(false);
+
+      const handleOpenToday = useCallback(() => {
+        setSelectedDayNum(todayDayNum);
+        setIsTurningPage(true);
+
+        setTimeout(() => {
+          const el = document.getElementById('today-card');
+          if (el) {
+            const topPos = el.getBoundingClientRect().top + window.pageYOffset - 72;
+            window.scrollTo({ top: topPos, behavior: 'smooth' });
+          }
+        }, 90);
+
+        setTimeout(() => {
+          setIsTurningPage(false);
+        }, 800);
+      }, [todayDayNum]);
       // Автоматическое определение сегодняшнего дня по календарю
       const todayDayNum = useMemo(() => getTodayDayNumber(), []);
       const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
@@ -1899,11 +1952,12 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
         })).filter(w => w.days.length > 0);
       }, [filter, isRead]);
 
-     return (
+    return (
         <div
           className="min-h-screen text-foreground flex flex-col"
           style={{ backgroundColor: 'hsl(38 34% 93%)' }}
         >
+          {isTurningPage && <div className="page-turn-overlay" aria-hidden="true" />}
           <AppHeader
             currentTab={currentTab}
             setTab={setTab}
@@ -1985,17 +2039,8 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
 
           {currentTab === 'today' && (
             <>
-             <HeroSection onOpenToday={() => {
-                setSelectedDayNum(todayDayNum);
-                setTimeout(() => {
-                  const el = document.getElementById('today-card');
-                  if (el) {
-                    const topPos = el.getBoundingClientRect().top + window.pageYOffset - 50; // 90px отступ под шапку
-                    window.scrollTo({ top: topPos, behavior: 'smooth' });
-                  }
-                }, 50);
-              }} />
-              
+              <HeroSection onOpenToday={handleOpenToday} />
+
               <main id="today-card" className="mx-auto w-full max-w-6xl px-5 pb-24 pt-8 sm:px-8 sm:pt-12 flex-1">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <p className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">
