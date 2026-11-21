@@ -1693,32 +1693,32 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
       // Автоматическое определение сегодняшнего дня по календарю
       const todayDayNum = useMemo(() => getTodayDayNumber(), []);
       const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
-       const [isFadingPage, setIsFadingPage] = useState(false);
+      const [isFadingPage, setIsFadingPage] = useState(false);
       const [dayTurnDir, setDayTurnDir] = useState(null);
       const [dayTurnKey, setDayTurnKey] = useState(0);
       const triggerDayTurn = useCallback((dir) => {
         setDayTurnDir(dir);
         setDayTurnKey(prev => prev + 1);
       }, []);
-     const [isTurningPage, setIsTurningPage] = useState(false);
+      const [isTurningPage, setIsTurningPage] = useState(false);
 
-const handleOpenToday = useCallback(() => {
-  setSelectedDayNum(todayDayNum);
-  setIsTurningPage(true);
+      const handleOpenToday = useCallback(() => {
+        setSelectedDayNum(todayDayNum);
+        setIsTurningPage(true);
 
-  setTimeout(() => {
-    const el = document.getElementById('today-card');
-    if (el) {
-      const topPos = el.getBoundingClientRect().top + window.pageYOffset - 72;
-      window.scrollTo({ top: topPos, behavior: 'smooth' });
-    }
-  }, 90);
+        setTimeout(() => {
+          const el = document.getElementById('today-card');
+          if (el) {
+            const topPos = el.getBoundingClientRect().top + window.pageYOffset - 72;
+            window.scrollTo({ top: topPos, behavior: 'smooth' });
+          }
+        }, 90);
 
-  setTimeout(() => {
-    setIsTurningPage(false);
-  }, 800);
-}, [todayDayNum]);
-     
+        setTimeout(() => {
+          setIsTurningPage(false);
+        }, 800);
+      }, [todayDayNum]);
+
       // Автоматическое обновление дня в полночь
       useEffect(() => {
         const checkMidnightUpdate = () => {
