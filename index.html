@@ -203,7 +203,7 @@
       }
 
       section[aria-label="Годовой план чтения"] .grid.grid-cols-3 {
-        height: clamp(9rem, 42vw, 14rem) !important;
+        height: clamp(9rem, 42vw, 20rem) !important;
         gap: .4rem !important;
         margin-top: 2rem !important;
       }
@@ -1462,7 +1462,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
               </button>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 md:gap-4 mt-12 md:h-80 overflow-hidden rounded-t-2xl">
+            <div className="grid grid-cols-3 gap-3 md:gap-4 mt-12 md:h-30 overflow-hidden rounded-t-2xl">
               {photos.map((photo, index) => (
                 <div key={index} className={`hero-photo hero-photo-${index + 1} ${index === 1 ? 'translate-y-8' : ''} bg-[#302e26] rounded-t-xl overflow-hidden shadow-inner`}>
                   <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105" />
