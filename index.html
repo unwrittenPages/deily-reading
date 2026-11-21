@@ -109,6 +109,56 @@
 <body>
   <div id="root"></div>
 
+  
+<script type="module">
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+
+  // ВСТАВЬ СЮДА СВОИ ДАННЫЕ ИЗ FIREBASE CONSOLE
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFGX6MBi93KMmvVV11Z6gvZKj7_QeLnvc",
+    authDomain: "bible-reading-year.firebaseapp.com",
+    projectId: "bible-reading-year",
+    appId: "1:590756922524:web:53e0b23036f41767155959"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Передаём Firebase-функции основному React-приложению
+  window.firebaseReady = Promise.resolve({
+    auth,
+    db,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    signOut,
+    doc,
+    getDoc,
+    setDoc,
+    serverTimestamp
+  });
+</script>
+
   <script type="text/babel">
     const { useState, useEffect, useMemo, useCallback } = React;
 
@@ -1212,18 +1262,297 @@
         return () => clearInterval(interval);
       }, [todayDayNum]);
 
-      const [readDays, setReadDays] = useState(() => {
-        try {
-          const saved = localStorage.getItem('bible_read_days');
-          return saved ? JSON.parse(saved) : [];
-        } catch { return []; }
-      });
+      
+// Проверяем и очищаем список прочитанных дней
+function normalizeReadDays(value) {
+  if (!Array.isArray(value)) return [];
 
-      useEffect(() => {
-        try {
-          localStorage.setItem('bible_read_days', JSON.stringify(readDays));
-        } catch {}
-      }, [readDays]);
+  return [...new Set(
+    value
+      .map(Number)
+      .filter(n =>
+        Number.isInteger(n) &&
+        n >= 1 &&
+        n <= TOTAL_DAYS
+      )
+  )].sort((a, b) => a - b);
+}
+
+// Сначала загружаем локальную копию.
+// Она понадобится для первоначального переноса в Firebase.
+const [readDays, setReadDays] = useState(() => {
+  try {
+    const saved = localStorage.getItem('bible_read_days');
+    return normalizeReadDays(
+      saved ? JSON.parse(saved) : []
+    );
+  } catch {
+    return [];
+  }
+});
+
+const [authUser, setAuthUser] = useState(null);
+const [authReady, setAuthReady] = useState(false);
+const [cloudLoaded, setCloudLoaded] = useState(false);
+const [syncStatus, setSyncStatus] = useState('Подключение...');
+const [authError, setAuthError] = useState('');
+
+const [authEmail, setAuthEmail] = useState('');
+const [authPassword, setAuthPassword] = useState('');
+const [authMode, setAuthMode] = useState('login');
+
+// Локальная копия остаётся как дополнительная страховка
+useEffect(() => {
+  try {
+    localStorage.setItem(
+      'bible_read_days',
+      JSON.stringify(readDays)
+    );
+  } catch (error) {
+    console.error('Ошибка локального сохранения:', error);
+  }
+}, [readDays]);
+
+// Следим за авторизацией и загружаем данные из облака
+useEffect(() => {
+  let unsubscribe = null;
+  let active = true;
+
+  async function initializeCloud() {
+    try {
+      const api = await window.firebaseReady;
+
+      if (!active) return;
+
+      unsubscribe = api.onAuthStateChanged(
+        api.auth,
+        async (user) => {
+          if (!active) return;
+
+          setAuthUser(user);
+          setAuthReady(true);
+
+          if (!user) {
+            setCloudLoaded(false);
+            setSyncStatus('Войдите в аккаунт');
+            return;
+          }
+
+          setCloudLoaded(false);
+          setSyncStatus('Загрузка данных...');
+
+          try {
+            const progressRef = api.doc(
+              api.db,
+              'users',
+              user.uid,
+              'progress',
+              'main'
+            );
+
+            const snapshot = await api.getDoc(progressRef);
+
+            // Читаем локальную копию для первоначального переноса
+            let localDays = [];
+
+            try {
+              localDays = normalizeReadDays(
+                JSON.parse(
+                  localStorage.getItem('bible_read_days') || '[]'
+                )
+              );
+            } catch {}
+
+            let finalDays;
+
+            if (snapshot.exists()) {
+              const cloudDays = normalizeReadDays(
+                snapshot.data().readDays
+              );
+
+              // Объединяем локальные и облачные отметки
+              // только при первом переносе данных
+              if (!snapshot.data().localMigrationDone) {
+                finalDays = normalizeReadDays([
+                  ...cloudDays,
+                  ...localDays
+                ]);
+
+                await api.setDoc(progressRef, {
+                  readDays: finalDays,
+                  localMigrationDone: true,
+                  updatedAt: api.serverTimestamp()
+                }, { merge: true });
+              } else {
+                finalDays = cloudDays;
+              }
+            } else {
+              // Первый вход: переносим существующие отметки
+              finalDays = localDays;
+
+              await api.setDoc(progressRef, {
+                readDays: finalDays,
+                localMigrationDone: true,
+                schemaVersion: 1,
+                updatedAt: api.serverTimestamp()
+              });
+            }
+
+            if (!active) return;
+
+            setReadDays(finalDays);
+            setCloudLoaded(true);
+            setSyncStatus('Данные синхронизированы');
+            setAuthError('');
+
+          } catch (error) {
+            console.error('Firebase load error:', error);
+            setCloudLoaded(false);
+            setSyncStatus('Ошибка загрузки из облака');
+            setAuthError(
+              'Не удалось загрузить данные. Локальные отметки сохранены. Проверь подключение.'
+            );
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Firebase initialization error:', error);
+      setAuthReady(true);
+      setSyncStatus('Ошибка подключения Firebase');
+      setAuthError('Не удалось подключиться к облачному хранилищу.');
+    }
+  }
+
+  initializeCloud();
+
+  return () => {
+    active = false;
+    if (unsubscribe) unsubscribe();
+  };
+}, []);
+
+// Сохраняем изменения в Firestore
+// Только после успешной загрузки данных!
+useEffect(() => {
+  if (!authUser || !cloudLoaded) return;
+
+  const timer = setTimeout(async () => {
+    try {
+      const api = await window.firebaseReady;
+
+      const progressRef = api.doc(
+        api.db,
+        'users',
+        authUser.uid,
+        'progress',
+        'main'
+      );
+
+      await api.setDoc(progressRef, {
+        readDays: normalizeReadDays(readDays),
+        updatedAt: api.serverTimestamp(),
+        schemaVersion: 1
+      }, { merge: true });
+
+      setSyncStatus('Сохранено в облако');
+
+    } catch (error) {
+      console.error('Firebase save error:', error);
+
+      if (!cancelled) {
+        setSyncStatus('Ошибка сохранения');
+        setAuthError(
+          'Не удалось сохранить прогресс. Проверь интернет.'
+        );
+      }
+    }
+  }
+
+  saveProgress();
+
+  return () => {
+    cancelled = true;
+  };
+
+}, [readDays, authUser, cloudLoaded]);
+
+
+      
+// Регистрация или вход
+const handleAuthSubmit = async (event) => {
+  event.preventDefault();
+  setAuthError('');
+
+  try {
+    const api = await window.firebaseReady;
+
+    if (authMode === 'signup') {
+      await api.createUserWithEmailAndPassword(
+        api.auth,
+        authEmail.trim(),
+        authPassword
+      );
+    } else {
+      await api.signInWithEmailAndPassword(
+        api.auth,
+        authEmail.trim(),
+        authPassword
+      );
+    }
+
+    setAuthPassword('');
+
+  } catch (error) {
+    console.error(error);
+
+    const messages = {
+      'auth/email-already-in-use': 'Этот адрес уже зарегистрирован.',
+      'auth/invalid-email': 'Неправильный адрес электронной почты.',
+      'auth/weak-password': 'Пароль должен содержать не менее 6 символов.',
+      'auth/invalid-credential': 'Неверная почта или пароль.',
+      'auth/network-request-failed': 'Проблема с интернет-соединением.'
+    };
+
+    setAuthError(
+      messages[error.code] || 'Ошибка авторизации. Попробуй ещё раз.'
+    );
+  }
+};
+
+// Восстановление пароля
+const handlePasswordReset = async () => {
+  if (!authEmail.trim()) {
+    setAuthError('Сначала введи свою электронную почту.');
+    return;
+  }
+
+  try {
+    const api = await window.firebaseReady;
+
+    await api.sendPasswordResetEmail(
+      api.auth,
+      authEmail.trim()
+    );
+
+    setAuthError('Письмо для восстановления пароля отправлено.');
+
+  } catch (error) {
+    console.error(error);
+    setAuthError('Не удалось отправить письмо. Проверь адрес.');
+  }
+};
+
+// Выход из аккаунта
+const handleSignOut = async () => {
+  try {
+    const api = await window.firebaseReady;
+    await api.signOut(api.auth);
+  } catch (error) {
+    console.error(error);
+    setAuthError('Не удалось выйти из аккаунта.');
+  }
+};
+
 
       const isRead = useCallback((dNum) => readDays.includes(dNum), [readDays]);
 
@@ -1253,6 +1582,116 @@
       return (
         <div className="min-h-screen bg-background text-foreground flex flex-col">
           <AppHeader currentTab={currentTab} setTab={setTab} />
+            
+<div className="mx-auto w-full max-w-6xl px-5 pt-4 sm:px-8">
+  <div className="rounded-2xl border border-border/80 bg-card p-4 sm:p-5">
+
+    {!authReady ? (
+      <p className="text-sm text-muted-foreground">
+        Подключение к облаку...
+      </p>
+    ) : authUser ? (
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-medium">
+            Облачное сохранение
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {authUser.email}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {syncStatus}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleSignOut}
+          className="rounded-full border border-border px-4 py-2 text-xs hover:bg-secondary"
+        >
+          Выйти
+        </button>
+      </div>
+    ) : (
+      <form onSubmit={handleAuthSubmit} className="space-y-3">
+        <div>
+          <p className="font-display text-lg">
+            Сохранение твоего прогресса
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Войди в аккаунт, чтобы хранить прочитанные главы в облаке.
+          </p>
+        </div>
+
+        <input
+          type="email"
+          required
+          value={authEmail}
+          onChange={e => setAuthEmail(e.target.value)}
+          placeholder="Электронная почта"
+          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none"
+        />
+
+        <input
+          type="password"
+          required
+          minLength={6}
+          value={authPassword}
+          onChange={e => setAuthPassword(e.target.value)}
+          placeholder="Пароль (не менее 6 символов)"
+          className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none"
+        />
+
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="submit"
+            className="rounded-full bg-[hsl(33,52%,40%)] px-5 py-2.5 text-sm text-white"
+          >
+            {authMode === 'signup' ? 'Создать аккаунт' : 'Войти'}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setAuthMode(
+                authMode === 'login' ? 'signup' : 'login'
+              );
+              setAuthError('');
+            }}
+            className="rounded-full border border-border px-4 py-2.5 text-sm"
+          >
+            {authMode === 'login'
+              ? 'Регистрация'
+              : 'У меня уже есть аккаунт'}
+          </button>
+        </div>
+
+        {authMode === 'login' && (
+          <button
+            type="button"
+            onClick={handlePasswordReset}
+            className="text-xs text-muted-foreground underline"
+          >
+            Забыли пароль?
+          </button>
+        )}
+
+        {authError && (
+          <p className="text-xs text-muted-foreground">
+            {authError}
+          </p>
+        )}
+      </form>
+    )}
+
+    {authUser && authError && (
+      <p className="mt-3 text-xs text-muted-foreground">
+        {authError}
+      </p>
+    )}
+
+  </div>
+</div>
 
           {currentTab === 'today' && (
             <>
