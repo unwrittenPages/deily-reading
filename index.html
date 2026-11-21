@@ -406,18 +406,18 @@
 @keyframes page-turn-sweep {
       0% {
         opacity: 0;
-        transform: translateX(92%) skewX(-4deg);
+        transform: translateX(75%) skewX(-4deg);
       }
-      22% {
-        opacity: 0.68;
-        transform: translateX(28%) skewX(-2.5deg);
+      20% {
+        opacity: 0.9;
+        transform: translateX(22%) skewX(-2.5deg);
       }
-      52% {
-        opacity: 0.34;
-        transform: translateX(-28%) skewX(-1deg);
+      55% {
+        opacity: 0.55;
+        transform: translateX(-30%) skewX(-1deg);
       }
-      82% {
-        opacity: 0.08;
+      85% {
+        opacity: 0.12;
         transform: translateX(-78%) skewX(0deg);
       }
       100% {
@@ -435,12 +435,14 @@
       background: linear-gradient(
         90deg,
         transparent 0%,
-        hsla(38, 44%, 97%, 0.55) 35%,
-        hsla(35, 38%, 91%, 0.45) 70%,
+        rgba(42, 31, 19, 0.08) 18%,
+        hsla(38, 52%, 99%, 0.92) 24%,
+        hsla(34, 42%, 88%, 0.85) 58%,
+        hsla(38, 44%, 97%, 0.3) 82%,
         transparent 100%
       );
       will-change: transform, opacity;
-      animation: page-turn-sweep 1.2s ease-out forwards;
+      animation: page-turn-sweep 1.2s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
     }
    
    @keyframes day-flip-left {
@@ -2016,10 +2018,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
           style={{ backgroundColor: 'hsl(38 34% 93%)' }}
         >
           {isTurningPage && (
-            <div
-              className={`page-turn-overlay is-active ${isFadingPage ? 'is-fading' : ''}`}
-              aria-hidden="true"
-            />
+            <div className="page-turn-overlay" aria-hidden="true" />
           )}
           <AppHeader
             currentTab={currentTab}
