@@ -437,6 +437,45 @@
       box-shadow: -18px 0 36px -12px rgba(42, 31, 19, 0.14);
       animation: page-turn-sweep 1s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
     }
+   @keyframes day-flip-left {
+      0% {
+        opacity: 0.45;
+        transform: perspective(1100px) rotateY(-12deg) translateX(-28px);
+      }
+      55% {
+        opacity: 0.92;
+        transform: perspective(1100px) rotateY(4deg) translateX(6px);
+      }
+      100% {
+        opacity: 1;
+        transform: perspective(1100px) rotateY(0deg) translateX(0);
+      }
+    }
+
+    @keyframes day-flip-right {
+      0% {
+        opacity: 0.45;
+        transform: perspective(1100px) rotateY(12deg) translateX(28px);
+      }
+      55% {
+        opacity: 0.92;
+        transform: perspective(1100px) rotateY(-4deg) translateX(-6px);
+      }
+      100% {
+        opacity: 1;
+        transform: perspective(1100px) rotateY(0deg) translateX(0);
+      }
+    }
+
+    .day-turn-left {
+      transform-origin: left center;
+      animation: day-flip-left 0.9s cubic-bezier(0.22, 0.75, 0.25, 1) both;
+    }
+
+    .day-turn-right {
+      transform-origin: right center;
+      animation: day-flip-right 0.9s cubic-bezier(0.22, 0.75, 0.25, 1) both;
+    }
   </style>
 </head>
 <body>
@@ -1648,7 +1687,13 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
       const todayDayNum = useMemo(() => getTodayDayNumber(), []);
       const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
       const [isTurningPage, setIsTurningPage] = useState(false);
+      const [dayTurnDir, setDayTurnDir] = useState(null);
+      const [dayTurnKey, setDayTurnKey] = useState(0);
 
+      const triggerDayTurn = useCallback((dir) => {
+        setDayTurnDir(dir);
+        setDayTurnKey(prev => prev + 1);
+      }, []);
       const handleOpenToday = useCallback(() => {
         setSelectedDayNum(todayDayNum);
         setIsTurningPage(true);
@@ -2047,10 +2092,16 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
                     День {currentDayObj.d} из {TOTAL_DAYS} · неделя {Math.ceil(currentDayObj.d / 7)}
                   </p>
 
-             <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5">
   <button
     type="button"
-    onClick={() => setSelectedDayNum(prev => Math.max(1, prev - 1))}
+    onClick={() => {
+      setSelectedDayNum(prev => {
+        const next = Math.max(1, prev - 1);
+        if (next !== prev) triggerDayTurn('left');
+        return next;
+      });
+    }}
     disabled={currentDayObj.d === 1}
     aria-label="Предыдущий день"
     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
@@ -2064,7 +2115,12 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
   {currentDayObj.d !== todayDayNum && (
     <button
       type="button"
-      onClick={() => setSelectedDayNum(todayDayNum)}
+      onClick={() => {
+        if (todayDayNum !== selectedDayNum) {
+          triggerDayTurn(todayDayNum < selectedDayNum ? 'left' : 'right');
+        }
+        setSelectedDayNum(todayDayNum);
+      }}
       className="inline-flex items-center justify-center rounded-full border border-border px-3.5 py-1.5 text-xs text-muted-foreground leading-none transition-colors hover:border-foreground/40 hover:text-foreground cursor-pointer"
     >
       К текущему дню · {todayDayNum}
@@ -2073,7 +2129,13 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
 
   <button
     type="button"
-    onClick={() => setSelectedDayNum(prev => Math.min(TOTAL_DAYS, prev + 1))}
+    onClick={() => {
+      setSelectedDayNum(prev => {
+        const next = Math.min(TOTAL_DAYS, prev + 1);
+        if (next !== prev) triggerDayTurn('right');
+        return next;
+      });
+    }}
     disabled={currentDayObj.d === TOTAL_DAYS}
     aria-label="Следующий день"
     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
@@ -2086,7 +2148,16 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
 </div>
                 </div>
 
-                <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
+               <div
+                  key={`${currentDayObj.d}-${dayTurnKey}`}
+                  className={`mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14 ${
+                    dayTurnDir === 'left'
+                      ? 'day-turn-left'
+                      : dayTurnDir === 'right'
+                      ? 'day-turn-right'
+                      : ''
+                  }`}
+                >
                   <DayCard
                     day={currentDayObj}
                     readings={readingsOf(currentDayObj)}
