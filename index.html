@@ -2017,7 +2017,12 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
           className="min-h-screen text-foreground flex flex-col"
           style={{ backgroundColor: 'hsl(38 34% 93%)' }}
         >
-          {isTurningPage && <div className="page-turn-overlay" aria-hidden="true" />}
+          {isTurningPage && (
+            <div
+              className={`page-turn-overlay is-active ${isFadingPage ? 'is-fading' : ''}`}
+              aria-hidden="true"
+            />
+          )}
           <AppHeader
             currentTab={currentTab}
             setTab={setTab}
