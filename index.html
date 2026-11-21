@@ -311,6 +311,16 @@
       }
     }
 
+    @keyframes greeting-wave {
+      0%, 22%, 100% { color: hsl(28, 15%, 13%); }
+      11% { color: hsl(33, 52%, 40%); }
+    }
+    .greeting-letter {
+      display: inline;
+      animation: greeting-wave 3.4s linear infinite;
+      animation-delay: calc(var(--i, 0) * 0.065s);
+    }
+    
     @media (max-width: 380px) {
       header > div {
         padding-left: .75rem !important;
@@ -1320,15 +1330,49 @@
 
     // --- КОМПОНЕНТЫ ИНТЕРФЕЙСА ---
 
+    function getTimeGreeting(hour = new Date().getHours()) {
+      if (hour >= 5 && hour < 12) return 'Доброе утро. Письмо уже ждет';
+      if (hour >= 12 && hour < 18) return 'Пауза в суете';
+      return 'Тихий вечер с Отцом';
+    }
+
+    function AnimatedGreeting({ text }) {
+      return (
+        <>
+          {text.split('').map((ch, i) =>
+            ch === ' ' ? (
+              ' '
+            ) : (
+              <span key={`${text}-${i}`} className="greeting-letter" style={{ '--i': i }}>
+                {ch}
+              </span>
+            )
+          )}
+        </>
+      );
+    }
+    
  function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSignOut }) {
+      const [greeting, setGreeting] = useState(() => getTimeGreeting());
+
+      useEffect(() => {
+        const updateGreeting = () => {
+          const next = getTimeGreeting();
+          setGreeting(prev => (prev === next ? prev : next));
+        };
+        const timer = setInterval(updateGreeting, 60000);
+        return () => clearInterval(timer);
+      }, []);
+
       return (
         <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur-md">
           <div className="mx-auto flex min-h-16 w-full max-w-6xl flex-wrap items-center justify-between gap-2 px-5 py-2 sm:px-8">
             <button
+              type="button"
               onClick={() => setTab('today')}
-              className="font-display text-lg tracking-title text-foreground text-left cursor-pointer"
+              className="font-display text-sm sm:text-base tracking-title text-foreground text-left cursor-pointer max-w-[14rem] sm:max-w-none leading-snug"
             >
-              Библия за год
+              <AnimatedGreeting text={greeting} />
             </button>
 
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
@@ -1341,7 +1385,7 @@
                   <button
                     type="button"
                     onClick={onSignOut}
-                    className="rounded-full px-4 py-2 text-sm border border-border text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+                    className="rounded-full px-4 py-2 text-sm text-muted-foreground border border-border transition-colors hover:text-foreground cursor-pointer"
                   >
                     Выйти
                   </button>
@@ -1350,14 +1394,16 @@
 
               <nav className="flex items-center gap-1">
                 <button
+                  type="button"
                   onClick={() => setTab('today')}
-                  className={`rounded-full border border-border px-4 py-2 text-sm transition-colors cursor-pointer ${
+                  className={`rounded-full px-4 border border-border py-2 text-sm transition-colors cursor-pointer ${
                     currentTab === 'today' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Сегодня
                 </button>
                 <button
+                  type="button"
                   onClick={() => setTab('plan')}
                   className={`rounded-full px-4 py-2 border border-border text-sm transition-colors cursor-pointer ${
                     currentTab === 'plan' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'
