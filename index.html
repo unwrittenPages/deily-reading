@@ -403,18 +403,22 @@
       }
     }
 
-   @keyframes page-turn-sweep {
+  @keyframes page-turn-sweep {
       0% {
         opacity: 0;
         transform: translateX(100%) skewX(-6deg);
       }
-      35% {
-        opacity: 0.72;
-        transform: translateX(8%) skewX(-3deg);
+      30% {
+        opacity: 0.68;
+        transform: translateX(10%) skewX(-3deg);
       }
       65% {
-        opacity: 0.55;
-        transform: translateX(-18%) skewX(-2deg);
+        opacity: 0.42;
+        transform: translateX(-22%) skewX(-1.5deg);
+      }
+      88% {
+        opacity: 0.14;
+        transform: translateX(-72%) skewX(-0.5deg);
       }
       100% {
         opacity: 0;
@@ -430,12 +434,12 @@
       background: linear-gradient(
         90deg,
         transparent 0%,
-        hsl(38, 44%, 97%) 28%,
-        hsl(35, 38%, 91%) 72%,
+        hsla(38, 44%, 97%, 0.78) 28%,
+        hsla(35, 38%, 91%, 0.68) 72%,
         transparent 100%
       );
-      box-shadow: -18px 0 36px -12px rgba(42, 31, 19, 0.14);
-      animation: page-turn-sweep 1s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
+      box-shadow: -18px 0 36px -12px rgba(42, 31, 19, 0.1);
+      animation: page-turn-sweep 1.05s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
     }
    @keyframes day-flip-left {
       0% {
@@ -1708,7 +1712,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
 
         setTimeout(() => {
           setIsTurningPage(false);
-        }, 1100);
+        }, 1130);
       }, [todayDayNum]);
 
       // Автоматическое обновление дня в полночь
