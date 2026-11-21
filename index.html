@@ -403,26 +403,18 @@
       }
     }
 
-  @keyframes page-turn-sweep {
+@keyframes page-turn-sweep {
       0% {
-        opacity: 0;
         transform: translateX(100%) skewX(-6deg);
       }
-      30% {
-        opacity: 0.68;
-        transform: translateX(10%) skewX(-3deg);
+      35% {
+        transform: translateX(8%) skewX(-2.5deg);
       }
-      65% {
-        opacity: 0.42;
-        transform: translateX(-22%) skewX(-1.5deg);
-      }
-      88% {
-        opacity: 0.14;
-        transform: translateX(-72%) skewX(-0.5deg);
+      75% {
+        transform: translateX(-45%) skewX(-1deg);
       }
       100% {
-        opacity: 0;
-        transform: translateX(-110%) skewX(0deg);
+        transform: translateX(-105%) skewX(0deg);
       }
     }
 
@@ -431,16 +423,28 @@
       inset: 0;
       z-index: 50;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.45s ease-out;
       background: linear-gradient(
         90deg,
         transparent 0%,
-        hsla(38, 44%, 97%, 0.78) 28%,
-        hsla(35, 38%, 91%, 0.68) 72%,
+        hsla(38, 44%, 97%, 0.72) 30%,
+        hsla(35, 38%, 91%, 0.62) 70%,
         transparent 100%
       );
-      box-shadow: -18px 0 36px -12px rgba(42, 31, 19, 0.1);
-      animation: page-turn-sweep 1.05s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
+      box-shadow: -18px 0 36px -12px rgba(42, 31, 19, 0.08);
     }
+
+    .page-turn-overlay.is-active {
+      opacity: 0.85;
+      animation: page-turn-sweep 1.2s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
+    }
+
+    .page-turn-overlay.is-fading {
+      opacity: 0;
+    }
+
+   
    @keyframes day-flip-left {
       0% {
         opacity: 0.45;
@@ -1691,6 +1695,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
       const todayDayNum = useMemo(() => getTodayDayNumber(), []);
       const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
       const [isTurningPage, setIsTurningPage] = useState(false);
+       const [isFadingPage, setIsFadingPage] = useState(false);
       const [dayTurnDir, setDayTurnDir] = useState(null);
       const [dayTurnKey, setDayTurnKey] = useState(0);
 
@@ -1700,6 +1705,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
       }, []);
       const handleOpenToday = useCallback(() => {
         setSelectedDayNum(todayDayNum);
+        setIsFadingPage(false);
         setIsTurningPage(true);
 
         setTimeout(() => {
@@ -1711,8 +1717,13 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
         }, 90);
 
         setTimeout(() => {
+          setIsFadingPage(true);
+        }, 750);
+
+        setTimeout(() => {
           setIsTurningPage(false);
-        }, 1130);
+          setIsFadingPage(false);
+        }, 1250);
       }, [todayDayNum]);
 
       // Автоматическое обновление дня в полночь
