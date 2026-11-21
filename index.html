@@ -1642,8 +1642,11 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
     }
 
     // --- ОСНОВНОЕ ПРИЛОЖЕНИЕ ---
-    function App() {
+   function App() {
       const [currentTab, setTab] = useState('today');
+      // Автоматическое определение сегодняшнего дня по календарю
+      const todayDayNum = useMemo(() => getTodayDayNumber(), []);
+      const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
       const [isTurningPage, setIsTurningPage] = useState(false);
 
       const handleOpenToday = useCallback(() => {
@@ -1662,9 +1665,6 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
           setIsTurningPage(false);
         }, 800);
       }, [todayDayNum]);
-      // Автоматическое определение сегодняшнего дня по календарю
-      const todayDayNum = useMemo(() => getTodayDayNumber(), []);
-      const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
 
       // Автоматическое обновление дня в полночь
       useEffect(() => {
