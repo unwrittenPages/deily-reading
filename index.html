@@ -1351,7 +1351,7 @@
               <nav className="flex items-center gap-1">
                 <button
                   onClick={() => setTab('today')}
-                  className={`rounded-full px-4 py-2 text-sm transition-colors cursor-pointer ${
+                  className={`rounded-full border border-border px-4 py-2 text-sm transition-colors cursor-pointer ${
                     currentTab === 'today' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -1359,7 +1359,7 @@
                 </button>
                 <button
                   onClick={() => setTab('plan')}
-                  className={`rounded-full px-4 py-2 text-sm transition-colors cursor-pointer ${
+                  className={`rounded-full px-4 py-2 border border-border text-sm transition-colors cursor-pointer ${
                     currentTab === 'plan' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
