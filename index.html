@@ -504,6 +504,11 @@
       transform-origin: right center;
       animation: day-flip-right 0.9s cubic-bezier(0.22, 0.75, 0.25, 1) both;
     }
+
+   html {
+      scroll-behavior: smooth;
+      overflow-anchor: none;
+    }
   </style>
 </head>
 <body>
@@ -2153,17 +2158,21 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
     <button
       type="button"
       onClick={() => {
+        const prevScrollY = window.scrollY;
         if (todayDayNum !== selectedDayNum) {
           triggerDayTurn(todayDayNum < selectedDayNum ? 'left' : 'right');
         }
         setSelectedDayNum(todayDayNum);
+
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: prevScrollY, behavior: 'instant' });
+        });
       }}
       className="inline-flex items-center justify-center rounded-full border border-border px-3.5 py-1.5 text-xs text-muted-foreground leading-none transition-colors hover:border-foreground/40 hover:text-foreground cursor-pointer"
     >
       К текущему дню · {todayDayNum}
     </button>
   )}
-
   <button
     type="button"
     onClick={() => {
