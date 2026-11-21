@@ -1467,11 +1467,17 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
               </p>
               
               <button
+                type="button"
                 onClick={onOpenToday}
                 className="hero-el hero-el-3 group mt-8 inline-flex h-12 items-center justify-center gap-3 rounded-xl bg-[hsl(33,52%,40%)] px-7 text-white font-display text-base tracking-wide shadow-md transition-all duration-300 hover:bg-[hsl(33,52%,35%)] hover:shadow-lg active:scale-95 cursor-pointer"
               >
                 <span>Открыть сегодня</span>
-                <span className="inline-flex leading-none items-center justify-center transition-transform duration-300 group-hover:translate-x-1"style={{ height: '10px', paddingBottom: '3px' }}>→</span>
+                <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
+                  <svg className="h-4 w-4 block" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h13" />
+                    <path d="M13 7l5 5-5 5" />
+                  </svg>
+                </span>
               </button>
             </div>
 
