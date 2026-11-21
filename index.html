@@ -435,7 +435,7 @@
         transparent 100%
       );
       box-shadow: -18px 0 36px -12px rgba(42, 31, 19, 0.14);
-      animation: page-turn-sweep 0.78s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
+      animation: page-turn-sweep 1s cubic-bezier(0.22, 0.75, 0.25, 1) forwards;
     }
   </style>
 </head>
@@ -1663,7 +1663,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
 
         setTimeout(() => {
           setIsTurningPage(false);
-        }, 800);
+        }, 1100);
       }, [todayDayNum]);
 
       // Автоматическое обновление дня в полночь
