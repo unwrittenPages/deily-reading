@@ -1693,11 +1693,9 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
       // Автоматическое определение сегодняшнего дня по календарю
       const todayDayNum = useMemo(() => getTodayDayNumber(), []);
       const [selectedDayNum, setSelectedDayNum] = useState(todayDayNum);
-      const [isTurningPage, setIsTurningPage] = useState(false);
        const [isFadingPage, setIsFadingPage] = useState(false);
       const [dayTurnDir, setDayTurnDir] = useState(null);
       const [dayTurnKey, setDayTurnKey] = useState(0);
-
       const triggerDayTurn = useCallback((dir) => {
         setDayTurnDir(dir);
         setDayTurnKey(prev => prev + 1);
