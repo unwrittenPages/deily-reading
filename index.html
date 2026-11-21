@@ -1383,7 +1383,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
 
             <div className="flex shrink-0 items-center gap-1 sm:gap-3">
               {authReady && authUser && (
-                <div className="flex items-center gap-1 sm:gap-2 border-r border-border/70 pr-1.5 sm:pr-3">
+                <div className="flex items-center gap-4 sm:gap-2 border-r border-border/70 pr-1.5 sm:pr-3">
                   <div className="hidden md:block text-right leading-tight">
                     <p className="max-w-[180px] truncate text-xs text-foreground">{authUser.email}</p>
                     <p className="text-[11px] text-muted-foreground" aria-live="polite">{syncStatus}</p>
@@ -1391,7 +1391,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
                   <button
                     type="button"
                     onClick={onSignOut}
-                    className="rounded-full px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap cursor-pointer"
+                    className="rounded-full px-2.5 sm:px-4 py-1.5 sm:py-2  border border-border text-xs sm:text-sm text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap cursor-pointer"
                   >
                     Выйти
                   </button>
@@ -1402,7 +1402,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
                 <button
                   type="button"
                   onClick={() => setTab('today')}
-                  className={`rounded-full px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer ${
+                  className={`rounded-full px-2.5 sm:px-4 py-1.5 sm:py-2  border border-border text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer ${
                     currentTab === 'today' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
@@ -1411,7 +1411,7 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
                 <button
                   type="button"
                   onClick={() => setTab('plan')}
-                  className={`rounded-full px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer ${
+                  className={`rounded-full px-2.5 sm:px-4  border border-border py-1.5 sm:py-2 text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer ${
                     currentTab === 'plan' ? 'bg-secondary text-foreground' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
