@@ -8,6 +8,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23221b14'/%3E%3Cpath d='M7 23.5A2.5 2.5 0 0 1 9.5 21H25' stroke='%23d0a25c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M9.5 6H25v20H9.5A2.5 2.5 0 0 1 7 23.5v-15A2.5 2.5 0 0 1 9.5 6z' stroke='%23d0a25c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M11 11h10M11 15h10M11 19h7' stroke='%23d0a25c' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
   
   <!-- Шрифты Lora и Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -311,14 +312,20 @@
       }
     }
 
+    .font-script {
+      font-family: 'Caveat', cursive;
+      font-style: italic;
+      font-weight: 600;
+    }
+
     @keyframes greeting-wave {
       0%, 22%, 100% { color: hsl(28, 15%, 13%); }
       11% { color: hsl(33, 52%, 40%); }
     }
     .greeting-letter {
       display: inline;
-      animation: greeting-wave 3.4s linear infinite;
-      animation-delay: calc(var(--i, 0) * 0.065s);
+      animation: greeting-wave 3.2s linear infinite;
+      animation-delay: calc(var(--i, 0) * 0.06s);
     }
     
     @media (max-width: 380px) {
@@ -1370,7 +1377,7 @@
             <button
               type="button"
               onClick={() => setTab('today')}
-              className="font-display text-sm sm:text-base tracking-title text-foreground text-left cursor-pointer max-w-[14rem] sm:max-w-none leading-snug"
+              className="font-script text-sm sm:text-base tracking-title text-foreground text-left cursor-pointer max-w-[14rem] sm:max-w-none leading-snug"
             >
               <AnimatedGreeting text={greeting} />
             </button>
