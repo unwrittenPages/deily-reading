@@ -1984,30 +1984,36 @@ function AppHeader({ currentTab, setTab, authReady, authUser, syncStatus, onSign
                   </p>
 
                   <div className="flex items-center gap-1.5">
-                    <button
-                      onClick={() => setSelectedDayNum(prev => Math.max(1, prev - 1))}
-                      disabled={currentDayObj.d === 1}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
-                    >
-                      ←
-                    </button>
-                    {/* Кнопка возврата к текущему дню между стрелочками */}
-                    {currentDayObj.d !== todayDayNum && (
-                      <button
-                        onClick={() => setSelectedDayNum(todayDayNum)}
-                        className="rounded-full border border-border px-3.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground cursor-pointer"
-                      >
-                        К текущему дню · {todayDayNum}
-                      </button>
-                    )}
-                    <button
-                      onClick={() => setSelectedDayNum(prev => Math.min(TOTAL_DAYS, prev + 1))}
-                      disabled={currentDayObj.d === TOTAL_DAYS}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
-                    >
-                      →
-                    </button>
-                  </div>
+  <button
+    type="button"
+    onClick={() => setSelectedDayNum(prev => Math.max(1, prev - 1))}
+    disabled={currentDayObj.d === 1}
+    aria-label="Предыдущий день"
+    className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
+  >
+    <span className="block text-[15px] leading-none translate-y-[0.5px] select-none">←</span>
+  </button>
+
+  {currentDayObj.d !== todayDayNum && (
+    <button
+      type="button"
+      onClick={() => setSelectedDayNum(todayDayNum)}
+      className="inline-flex items-center justify-center rounded-full border border-border px-3.5 py-1.5 text-xs text-muted-foreground leading-none transition-colors hover:border-foreground/40 hover:text-foreground cursor-pointer"
+    >
+      К текущему дню · {todayDayNum}
+    </button>
+  )}
+
+  <button
+    type="button"
+    onClick={() => setSelectedDayNum(prev => Math.min(TOTAL_DAYS, prev + 1))}
+    disabled={currentDayObj.d === TOTAL_DAYS}
+    aria-label="Следующий день"
+    className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border p-0 text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground disabled:opacity-40 cursor-pointer"
+  >
+    <span className="block text-[15px] leading-none translate-y-[0.5px] select-none">→</span>
+  </button>
+</div>
                 </div>
 
                 <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
